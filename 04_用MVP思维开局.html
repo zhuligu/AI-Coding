@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04｜用 MVP 思维开局：先做 60 分再谈完美</title>
+<style>
+  :root {
+    --text: #2d3239;
+    --text-light: #6b7280;
+    --primary: #2563eb;
+    --primary-light: #eff4ff;
+    --accent: #b45309;
+    --accent-bg: #fffbeb;
+    --border: #e5e7eb;
+    --table-head: #f3f6fc;
+    --prompt-bg: #f8fafc;
+    --bg: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: #f5f6f8;
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .article {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--bg);
+    padding: 32px 26px 48px;
+  }
+  h1 {
+    font-size: 24px;
+    line-height: 1.45;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .subtitle {
+    color: var(--text-light);
+    font-size: 14px;
+    border-left: 4px solid var(--primary);
+    padding: 8px 0 8px 14px;
+    background: var(--primary-light);
+    margin-bottom: 26px;
+    border-radius: 0 6px 6px 0;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 38px 0 16px;
+    padding-left: 12px;
+    border-left: 4px solid var(--primary);
+    line-height: 1.5;
+  }
+  h3 {
+    font-size: 16.5px;
+    font-weight: 700;
+    margin: 24px 0 10px;
+    color: #1f2a44;
+  }
+  p { margin: 12px 0; }
+  strong { font-weight: 600; }
+  .lead {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 18px 0;
+    font-weight: 600;
+  }
+  ul, ol { margin: 12px 0 12px 24px; }
+  li { margin: 8px 0; }
+  .table-wrap { overflow-x: auto; margin: 16px 0; border-radius: 8px; border: 1px solid var(--border); }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14.5px; }
+  th {
+    background: var(--table-head);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    white-space: nowrap;
+    color: #1f2a44;
+  }
+  td { padding: 10px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  .quote {
+    margin: 22px 0;
+    padding: 16px 18px;
+    background: #f0f9ff;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #075985;
+  }
+  .prompt {
+    margin: 14px 0;
+    padding: 14px 16px;
+    background: var(--prompt-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #334155;
+  }
+  .figure {
+    margin: 20px 0;
+    text-align: center;
+  }
+  .figure img {
+    max-width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .figcaption {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-light);
+  }
+  .ref-list {
+    margin: 12px 0 12px 24px;
+    font-size: 14.5px;
+  }
+  .ref-list li { margin: 6px 0; }
+  .ref-list a { color: var(--primary); text-decoration: none; word-break: break-all; }
+  .footer-note {
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .cta {
+    margin: 28px 0 0;
+    text-align: center;
+    background: linear-gradient(135deg, #eff4ff, #f0f9ff);
+    padding: 20px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 17px;
+    color: #1d4ed8;
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+  @media (max-width: 480px) {
+    body { font-size: 15px; }
+    h1 { font-size: 21px; }
+    h2 { font-size: 17.5px; }
+    .article { padding: 24px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="article">
+
+<h1>04｜用 MVP 思维开局：先做 60 分再谈完美</h1>
+
+<div class="subtitle">《非程序员 AI 编程实战》系列第 4 篇 · 需求分析第 3 步：定义 MVP</div>
+
+<p>上一期结尾，我们记下了一个经过验证的问题。现在，到了最让人兴奋，也最容易翻车的时刻——<strong>动手做</strong>。</p>
+
+<p>先做个小测试。假设你的问题是"月底不知道钱花哪了"，现在让 AI 帮你做一个记账小程序。你会怎么描述需求？</p>
+
+<p><strong>A 版本</strong>："帮我做个记账小程序，能记录收入支出、按分类统计、做预算提醒、导出报表、支持多人家庭共享、最好还能对接银行卡自动导入账单……"</p>
+
+<p><strong>B 版本</strong>："帮我做个记账小程序，先只做两个功能：记一笔账、按月看花了多少。"</p>
+
+<p>如果你选了 A——恭喜你，你踩中了新手第一杀手：<strong>想一步到位</strong>。而这一篇要教你的，就是 B 版本的思维方式：<strong>MVP</strong>。</p>
+
+<hr>
+
+<h2>一、什么是 MVP？先做 60 分</h2>
+
+<p><strong>MVP（Minimum Viable Product）＝ 最小可行产品</strong>——用最小的成本，做出一个能解决核心问题、能给人用的版本。</p>
+
+<p>注意关键词不是"最小"，是<strong>可行</strong>：它能真正解决那个最痛的问题，哪怕界面难看、功能很少。</p>
+
+<p>为什么从 60 分开始？三个理由：</p>
+<ol>
+  <li><strong>你验证的是"问题"，不是"功能"</strong>——你真正要确认的是"有没有人愿意用"，而不是"功能全不全"。60 分就能测出来。</li>
+  <li><strong>AI 时代的成本结构变了</strong>——AI 写代码很快，但<strong>你验收、测试、改 bug 的时间没有变快</strong>。功能越多，你要把关的地方越多，项目拖得越久。</li>
+  <li><strong>60 分才有用户</strong>——《半月谈》报道里那句很实在："AI 写代码能很快生成一个 60 分左右的结果。"你的任务不是憋一个 100 分，而是<strong>让 60 分先跑起来、给人用</strong>。有用的 60 分，胜过躺在草稿箱里的 100 分。</li>
+</ol>
+
+<div class="quote">打个比方：开饭馆，MVP 不是豪华装修的大堂，而是先支个摊、只卖一道招牌菜——先验证"这道菜有人爱吃"，再谈菜单和装修。<strong>先跑起来，再跑快。</strong></div>
+
+<h2>二、为什么"顺便加个功能"是项目杀手？</h2>
+
+<p>新手做 AI 产品，最容易死在一个词上：<strong>范围蔓延</strong>（Scope Creep）——需求在做的过程中不断膨胀。</p>
+
+<p>它的典型台词是：</p>
+<ul>
+  <li>"<strong>顺便</strong>加个搜索功能"</li>
+  <li>"<strong>反正</strong>都在做了，把导出也加上"</li>
+  <li>"<strong>万一</strong>用户需要呢，先做上"</li>
+  <li>"<strong>就多一行</strong>代码的事，让 AI 加一下"</li>
+</ul>
+
+<p>问题就在这：<strong>让 AI 加功能太容易了，一句话的事</strong>。于是今天加一个、明天加一个，两周后你发现：说好的小程序变成了大平台，改不完的 bug，遥遥无期。</p>
+
+<p>更要命的是，功能是<strong>连锁反应</strong>：加一个功能，就要多一组测试、多一堆报错、多好几轮验收。<strong>每个"顺便"，都是往项目里埋一颗定时炸弹。</strong></p>
+
+<p>有人专门给这个坑做了个"检测器"——AI 编程方法论工具 Vibe Tutor 里内置了<strong>范围蔓延检测</strong>：只要你输入"顺便加个""反正"这类词，它就自动弹窗提醒你回到 MVP 原则。连 AI 都知道要拦着你，可见这坑有多深。</p>
+
+<div class="quote">记住：<strong>MVP 不是"少做功能"，而是"只做能验证核心问题的功能"。</strong>其余的都写进"以后再说"清单。</div>
+
+<h2>三、怎么定义你的 MVP？三步法</h2>
+
+<p>回到上一期记下的问题，用三步把它切成"这一版只做这些"：</p>
+
+<p><strong>第 1 步：圈出"最痛的那一个"</strong></p>
+<p>如果这个工具只能解决一个问题，你解决哪个？不是"最有面子"的，而是"最让人抓狂"的。记账小程序里，"记一笔 + 看花了多少"比"漂亮的预算图表"痛一百倍。</p>
+
+<p><strong>第 2 步：列出"必须有"清单（控制在 1-3 个）</strong></p>
+<p>用大白话写下来，每个功能一句话，<strong>能被你自己验收</strong>。比如：</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>项目</th><th>必须有（MVP 版）</th><th>以后再说（完整版）</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>记账小程序</td><td>记一笔支出；按月看总花费和分类</td><td>预算提醒、导出报表、多账号、账单自动导入</td></tr>
+    <tr><td>学习打卡</td><td>每天打卡 + 连续天数</td><td>排行榜、打卡提醒、好友对战</td></tr>
+    <tr><td>库存预警（老刘的）</td><td>入库、出库、缺货邮件提醒</td><td>多仓库、权限系统、报表</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>第 3 步：写下"不做清单"，贴在旁边</strong></p>
+<p>把"以后再说"那栏抄下来，做成一张<strong>不做清单</strong>。这不是丢功能，是把它们从脑子里清出去，防止做的时候手痒。<strong>写下来的承诺，比脑子的承诺管用。</strong></p>
+
+<p>三步走完，你会得到一页纸：<strong>问题一句话 + 必须有 1-3 个功能 + 不做清单</strong>。这就是你的 MVP 定义，也是给 AI 的需求底稿。</p>
+
+<h2>四、给 AI 下需求时，加一句"先做 MVP 版"</h2>
+
+<p>很多人的需求翻车，不是因为没说清楚，而是因为<strong>没说"这版做到什么程度"</strong>。同样一个问题，两个说法，AI 的产出天差地别：</p>
+<ul>
+  <li>❌ "帮我做个记账小程序，功能全面一点"</li>
+  <li>✅ "帮我做个记账小程序，<strong>先做 MVP 版</strong>：只要能记一笔账、按月看分类统计。界面简洁，手机能用。<strong>其他功能先不做，以后再说</strong>。"</li>
+</ul>
+
+<p>短短几句"先做 MVP 版 + 其他先不做"，AI 就知道边界在哪，不会自作主张给你堆功能。这一招，比任何提示词技巧都管用。</p>
+
+<h2>五、案例拆解：一个亲测的 60 分产品</h2>
+
+<p><strong>案例：我的潮汐小程序——10 多分钟做出 MVP（作者亲测）</strong></p>
+
+<p>还记得第 1 篇开头那个潮汐查询小程序吗？那是报道里一位设计师花一周做的。顺着同样的需求，我亲自做了一遍，看看 MVP 到底能有多快——<strong>从打开 CodeBuddy 到界面跑起来，10 多分钟。</strong></p>
+
+<p>做法很简单，三步：</p>
+<ol>
+  <li><strong>需求一句话</strong>：手机上能查潮汐。核心功能只有一个：选地点，看潮高和潮汐时间；</li>
+  <li><strong>工具选型</strong>：用第 2 篇推荐的 CodeBuddy（国内工具），再订阅一个阿里云市场的"潮汐查询"API；</li>
+  <li><strong>把需求说给 AI 听</strong>（密钥已隐去）：</li>
+</ol>
+
+<div class="prompt">"基于 HTML5 开发一个适合手机的潮汐查询小程序：接入阿里云市场潮汐查询 API，展示所选地点的潮高与潮汐时间，界面简洁，手机端适配。API 凭证：AppCode 填入你的密钥。"</div>
+
+<div class="figure">
+  <img src="images/04_潮汐小程序.png" alt="CodeBuddy 编程界面与潮汐小程序运行效果（作者亲测，已打码处理）">
+  <div class="figcaption">▲ CodeBuddy 编程界面 + 潮汐小程序运行效果（作者亲测，密钥已打码）</div>
+</div>
+
+<p>CodeBuddy 生成代码、接好接口，浏览器里直接打开——一个能用的潮汐小程序就跑起来了。</p>
+
+<p>界面真的很整洁，也漂亮。功能全吗？当然不。<strong>但它已经能用了</strong>——这比"想做一个完美的潮汐 App"停在脑子里强一百倍。后面想加"潮汐曲线图""赶海最佳时间提醒"，随时再说。</p>
+
+<p>这个案例验证了三件事：<strong>① MVP 只需要核心功能</strong>——"查潮汐"一个就够；<strong>② 工具选对，效率惊人</strong>——国内工具 + 国内模型，10 分钟出活；<strong>③ 先跑起来，再优化。</strong></p>
+
+<div class="quote">顺便提醒：我在这里隐去了 API 密钥。<strong>凡涉及密钥、账号的提示词，自己保管好，不要发到任何公开的地方</strong>（这个系列的第 13 篇会专门讲安全红线）。</div>
+
+<p>先解决一个核心问题，用起来，再长大——这就是 MVP 的全部秘密。</p>
+
+<h2>六、避坑提醒：MVP 阶段的 3 个坑</h2>
+
+<p><strong>坑 1：完美主义陷阱</strong>——"等界面好看一点再给别人看""等把 bug 都修完再上线"。<strong>这个"等"永远等不到头。</strong>60 分就拿出来，难看也拿出来——反馈比完美值钱。</p>
+
+<p><strong>坑 2：功能堆砌</strong>——"顺便加个"。每想加一个功能，先问一句："没有它，核心问题就解决不了吗？"不是，就写进不做清单。</p>
+
+<p><strong>坑 3：把"最小"当成"随便"</strong>——MVP 是功能少，不是质量差。<strong>仅有的几个核心功能，要做到能用、稳定、不报错。</strong>核心功能敷衍了，验证出来的结果也是假的。</p>
+
+<h2>七、今天就能做的行动清单</h2>
+
+<ol>
+  <li>拿出上一期记下的问题，圈出<strong>最痛的那一个</strong>；</li>
+  <li>写下"必须有"清单——<strong>只留 1-3 个功能</strong>，每个一句话；</li>
+  <li>写一张<strong>不做清单</strong>，贴在电脑边；</li>
+  <li>把需求发给 AI 时，加上这句："先做 MVP 版，其他功能先不做"；</li>
+  <li><strong>本周内，把 60 分版本做出来，发给 3 个人用</strong>——哪怕丑。</li>
+</ol>
+
+<hr>
+
+<h2>写在最后</h2>
+
+<p><strong>60 分的产品有人用，100 分的产品没人用——先让它跑起来。</strong></p>
+
+<p>AI 时代做产品的门槛已经低到"一句话"，但<strong>选择做什么、不做什么</strong>的门槛反而更高了。克制，是新手最稀缺的能力。</p>
+
+<p>下一期：《技术栈别纠结：非程序员怎么做技术决策》——功能定了，该用什么"材料"把它搭出来？网页、小程序、App 到底怎么选？一行代码不会，也能选对。</p>
+
+<div class="cta">👉 关注本号，跟着 15 篇系列文章，从零开始做出你的第一个产品。</div>
+
+<h2>参考文档</h2>
+<ol class="ref-list">
+  <li>《Vibecoding兴起，程序员被"卷"到了》，半月谈 2026 年第 9 期（"AI 写代码能很快生成 60 分左右的结果"）</li>
+  <li>阿里云市场 · 潮汐查询 API（作者亲测案例所用）：<a href="https://market.aliyun.com/detail/cmapi00048078">https://market.aliyun.com/detail/cmapi00048078</a></li>
+</ol>
+
+<div class="footer-note">* 文中行业数据另标注来源与时间；作者亲测案例中的 API 密钥已打码处理，请勿在公开场合泄露任何密钥。</div>
+
+</div>
+</body>
+</html>
