@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02｜一文看懂 AI 编程：它是什么、有哪些工具</title>
+<style>
+  :root {
+    --text: #2d3239;
+    --text-light: #6b7280;
+    --primary: #2563eb;
+    --primary-light: #eff4ff;
+    --accent: #b45309;
+    --accent-bg: #fffbeb;
+    --border: #e5e7eb;
+    --table-head: #f3f6fc;
+    --warn: #b91c1c;
+    --warn-bg: #fef2f2;
+    --warn-border: #fca5a5;
+    --code-bg: #f8fafc;
+    --bg: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: #f5f6f8;
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .article {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--bg);
+    padding: 32px 26px 48px;
+  }
+  h1 {
+    font-size: 24px;
+    line-height: 1.45;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .subtitle {
+    color: var(--text-light);
+    font-size: 14px;
+    border-left: 4px solid var(--primary);
+    padding: 8px 0 8px 14px;
+    background: var(--primary-light);
+    margin-bottom: 26px;
+    border-radius: 0 6px 6px 0;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 38px 0 16px;
+    padding-left: 12px;
+    border-left: 4px solid var(--primary);
+    line-height: 1.5;
+  }
+  h3 {
+    font-size: 16.5px;
+    font-weight: 700;
+    margin: 24px 0 10px;
+    color: #1f2a44;
+  }
+  p { margin: 12px 0; }
+  strong { font-weight: 600; }
+  .lead {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 18px 0;
+    font-weight: 600;
+  }
+  ul, ol { margin: 12px 0 12px 24px; }
+  li { margin: 8px 0; }
+  .table-wrap { overflow-x: auto; margin: 16px 0; border-radius: 8px; border: 1px solid var(--border); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14.5px; }
+  th {
+    background: var(--table-head);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    white-space: nowrap;
+    color: #1f2a44;
+  }
+  td { padding: 10px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  .quote {
+    margin: 22px 0;
+    padding: 16px 18px;
+    background: #f0f9ff;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #075985;
+  }
+  .warn {
+    margin: 16px 0;
+    padding: 13px 16px;
+    background: var(--warn-bg);
+    border-left: 4px solid var(--warn);
+    border-radius: 0 8px 8px 0;
+    color: #7f1d1d;
+    font-weight: 600;
+  }
+  .prompt {
+    margin: 14px 0;
+    padding: 14px 16px;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #334155;
+  }
+  .footer-note {
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .cta {
+    margin: 28px 0 0;
+    text-align: center;
+    background: linear-gradient(135deg, #eff4ff, #f0f9ff);
+    padding: 20px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 17px;
+    color: #1d4ed8;
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1f2937;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .site-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .site-nav a:hover { color: #93c5fd; }
+  @media (max-width: 480px) {
+    body { font-size: 15px; }
+    h1 { font-size: 21px; }
+    h2 { font-size: 17.5px; }
+    .article { padding: 24px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="site-nav">
+  <a href="01_引言与课程介绍.html">上一讲</a>
+  <a href="03_第一步不是写代码是发现问题.html">下一讲</a>
+  <a href="index.html">🏠 回到首页</a>
+</div>
+
+<div class="article">
+
+<h1>02｜一文看懂 AI 编程：它是什么、有哪些工具</h1>
+
+<div class="subtitle">《非程序员 AI 编程实战》系列第 2 篇 · 先看清地图，再决定走哪条路</div>
+
+<p>上一期我们说：2026 年，不会编程的人也能做产品了。文章发出去后，后台收到最多的提问是：</p>
+
+<p><strong>"工具那么多，到底该用哪个？"</strong></p>
+
+<p>这确实是最现实的问题。市面上的 AI 编程工具有十几个，名字五花八门，光看介绍就头大。这一期，我们用大白话把这件事讲透——<strong>AI 编程到底是怎么一回事，主流工具分几类，你该从哪一款开始。</strong></p>
+
+<p>看完这篇，你就能自己去下载安装，做出第一个小作品。</p>
+
+<hr>
+
+<h2>一、AI 编程到底是什么？</h2>
+
+<p>一句话：<strong>你用自然语言描述"要什么"，AI 帮你写代码。</strong></p>
+
+<p>但"AI 帮你写代码"这件事，干活的方式分三种层次，理解了这个，选工具就不纠结了：</p>
+
+<p><strong>第 1 层：聊天式</strong>——你像跟朋友聊天一样，让 AI 生成一段代码或一个完整文件，再复制到本地使用。ChatGPT、DeepSeek 的网页版都能干这事，零门槛，但每次都要复制粘贴，干不了大活。</p>
+
+<p><strong>第 2 层：插件式</strong>——把 AI 助手装进你常用的编程软件（编辑器）里，它边看你写边补全，你也能直接跟它对话改代码。国内最流行的通义灵码、CodeGeeX 就是这种。相当于请了个"贴身助理"。</p>
+
+<p><strong>第 3 层：Agent 式（智能体）</strong>——这是 2026 年最火的方式。你只负责说需求，AI 自己拆解任务、写代码、跑测试、甚至部署上线，全程像一支"AI 外包团队"在干活。Claude Code、Cursor 的智能体模式、Codex 都属于这一类。</p>
+
+<div class="quote">打个比方：聊天式是"你指挥、它动手、你搬运"；插件式是"你俩并肩工作"；Agent 式是"你把项目外包给一个团队，只看交付结果"。</div>
+
+<p><strong>先分清两个概念：工具和模型。</strong>工具是"外壳"（工作台、编辑器），模型是"引擎"（AI 的大脑）。同一款工具，往往可以搭配不同的模型——而模型决定了 AI 有多聪明、<strong>要花多少钱</strong>。这一点对非程序员特别重要，后面我们会专门讲怎么选模型、怎么省钱。</p>
+
+<p><strong>关键认知：无论哪一层，你最重要的工作都是——说清楚"要什么"。</strong>这也正是我们这个系列的核心：不学语法，学怎么把想法变成 AI 听得懂的指令。</p>
+
+<h2>二、国外三巨头：Claude Code / Codex / Cursor</h2>
+
+<p>国外工具是 AI 编程的"第一梯队"，技术最前沿，但<strong>对非程序员来说普遍有三道坎：需要科学上网（且存在封号风险）、需要国际支付方式、操作习惯偏专业</strong>。了解它们，主要是知道"天花板"在哪里；真正上手，多数人还是建议从国内工具开始（后面细说）。</p>
+
+<h3>🟠 Claude Code（Anthropic 出品）——终端里的"AI 工程师"</h3>
+
+<ul>
+  <li><strong>是什么</strong>：运行在命令行终端里的 AI 编程 Agent，没有花哨界面，靠对话干活。</li>
+  <li><strong>强在哪</strong>：Agent 能力是目前公认第一梯队。2026 年连续升级：支持子 Agent 层层嵌套（最深 5 层，大任务分给"小组长"，小组长再分给"小兵"）、动态工作流、Opus 5 成为默认模型。它更像"能自主规划的执行官"。</li>
+</ul>
+
+<div class="warn">⚠️ 需要注意：Claude Code 需要科学上网才能使用，账号存在封号风险（一旦被封就无法使用，之前的订阅也打水漂）；想用它搭配国内模型，需要自己改配置，对新手来说比较麻烦。这几点对非程序员都是劝退项。</div>
+
+<p><strong>适合谁</strong>：追求最强自动化、且能解决网络问题的人；<strong>对完全零基础的非程序员：不推荐作为入门工具</strong>，建议先用图形界面的国内工具，有经验后再考虑进阶。</p>
+
+<h3>🟠 Codex（OpenAI 出品）——会聊天的"AI 开发搭档"</h3>
+
+<ul>
+  <li><strong>是什么</strong>：ChatGPT 背后的团队做的编程工具，和 ChatGPT 深度打通，也有网页版和命令行版（Codex CLI）。</li>
+  <li><strong>强在哪</strong>：自然语言理解能力顶级——你就像跟 ChatGPT 聊天一样描述需求，它能边做边解释。2026 年新增云端执行、与 GitHub 深度联动等功能。</li>
+  <li><strong>适合谁</strong>：重度 ChatGPT 用户、喜欢"对话式"协作的人；<strong>对非程序员：同样需要海外网络和支付方式，新手不建议从这里开始</strong>。</li>
+</ul>
+
+<h3>🟠 Cursor（Anysphere 出品）——看得见的"AI 开发工作台"</h3>
+
+<ul>
+  <li><strong>是什么</strong>：一款 AI 原生的代码编辑器（图形界面），也是目前全球最流行的 AI 编程工具，用户口碑爆棚。</li>
+  <li><strong>强在哪</strong>：2026 年从"编辑器"进化成了"Agent 工作平台"——6 月一个月内连发三个大版本：云端子 Agent（帮你开虚拟机跑任务）、Automations 自动化（用自然语言创建定时任务）、iOS 移动端（手机就能指挥电脑上的 AI 干活）。<strong>支持多模型</strong>（可切换 OpenAI / Anthropic / Gemini 等多个国外模型，也可以接入国内模型使用）。免费版即可上手，Pro 版 $20/月。</li>
+  <li><strong>适合谁</strong>：<strong>对非程序员：新手第一选择之一</strong>——图形界面友好、社区教程多、免费版够用；<strong>但需要海外网络和支付方式，国内用户用它要么"科学上网 + 国外模型"，要么费点劲接入国内模型，折腾成本要提前算进去</strong>。</li>
+</ul>
+
+<h2>三、国内三剑客：通义灵码 / CodeGeeX / CodeBuddy</h2>
+
+<p>国内工具在 2026 年已经相当成熟，中文理解更好、免费额度更多、<strong>无需折腾网络环境</strong>。<strong>对非程序员来说，国内工具 + 国内模型就是首选</strong>——这也是本系列推荐大家入门的方向。</p>
+
+<h3>🔵 通义灵码（阿里云出品）——国产装机量第一的"全能选手"</h3>
+
+<ul>
+  <li><strong>是什么</strong>：阿里的 AI 编程助手，以插件形式装进 VS Code、JetBrains 等主流编辑器。</li>
+  <li><strong>强在哪</strong>：国产工具里综合实力最强、中文理解最自然；个人版基本免费（专业版约 ¥59/月）。<strong>支持多档位模型</strong>——基于通义千问（Qwen）系列，可以在免费档、强档位之间切换，丰俭由人。2026 年新增"任务拆解模式"——把一个复杂需求拆成步骤让子代理逐步完成。阿里内部 30% 以上的代码已经是 AI 生成。</li>
+  <li><strong>适合谁</strong>：<strong>对非程序员：非常合适</strong>——中文友好、插件式零学习成本，个人版免费，适合作为第一款入门的国内工具。</li>
+</ul>
+
+<h3>🔵 CodeGeeX（智谱 AI 出品）——完全免费开源的"多语言翻译官"</h3>
+
+<ul>
+  <li><strong>是什么</strong>：清华大学团队背景的 AI 编程助手，完全免费、开源、无付费档。</li>
+  <li><strong>强在哪</strong>：免费到极致；支持 130+ 种编程语言，跨语言翻译（把 Python 代码转成 C++）是招牌能力；还能本地部署，数据不出公司，安全性高。</li>
+  <li><strong>适合谁</strong>：<strong>对非程序员：很合适</strong>——完全免费、没有任何付费压力，是预算敏感新手最安心的选择；适合学生党、多语言/代码转换需求、对数据安全有要求的场景。</li>
+</ul>
+
+<h3>🔵 CodeBuddy（腾讯云出品）——从想法到上线一条龙的"全能工作室"</h3>
+
+<ul>
+  <li><strong>是什么</strong>：腾讯云 AI 代码助手，提供"插件 + 智能 IDE + 命令行"三种形态，深度集成腾讯生态。</li>
+  <li><strong>强在哪</strong>：<strong>对非程序员最友好</strong>——专门有面向"产品/设计师/编程初学者"的零门槛模式：自然语言描述需求自动生成需求文档（PRD）、导入 Figma 设计稿一键生成页面代码、内置数据库和后端服务、一键部署上线。做微信小程序有天然优势（直接集成微信开发者工具）。<strong>支持多模型（混元、DeepSeek 等）</strong>，可以按任务和预算自由切换，成本灵活。</li>
+  <li><strong>适合谁</strong>：<strong>对非程序员：特别合适</strong>——产品经理、设计师、零基础想快速做出成品的人；做微信小程序的人。</li>
+</ul>
+
+<h2>四、6 款工具怎么选？一张表看懂</h2>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>工具</th><th>出品方</th><th>形态</th><th>免费情况</th><th>支持多模型</th><th>非程序员友好度</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Claude Code</td><td>Anthropic（国外）</td><td>命令行 Agent</td><td>Pro $20/月</td><td>以 Claude 为主</td><td>⭐（需科学上网，硬核）</td></tr>
+    <tr><td>Codex</td><td>OpenAI（国外）</td><td>对话 + 命令行</td><td>付费为主</td><td>以 OpenAI 为主</td><td>⭐（需海外网络）</td></tr>
+    <tr><td>Cursor</td><td>Anysphere（国外）</td><td>AI 原生编辑器</td><td>免费版可用，Pro $20/月</td><td>✅ 多模型</td><td>⭐⭐⭐（需海外网络）</td></tr>
+    <tr><td>通义灵码</td><td>阿里云（国内）</td><td>编辑器插件</td><td>个人版基本免费</td><td>✅ 多档位</td><td>⭐⭐⭐⭐</td></tr>
+    <tr><td>CodeGeeX</td><td>智谱 AI（国内）</td><td>编辑器插件</td><td>完全免费</td><td>以 GLM 为主</td><td>⭐⭐⭐⭐</td></tr>
+    <tr><td>CodeBuddy</td><td>腾讯云（国内）</td><td>插件 + IDE + CLI</td><td>基础免费</td><td>✅ 多模型</td><td>⭐⭐⭐⭐⭐</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>先放宽心：这 6 款都是顶级编程 Agent</h3>
+
+<p><strong>先说结论：这 6 款工具都是目前全球/国内顶级的编程 Agent，随便哪一款，都足够满足非程序员的编程需求。</strong>你不需要纠结"哪个最强"——它们之间的差距，远小于"你用不用、用不用得熟"的差距。</p>
+
+<p><strong>选择标准就一条：选自己合适的、简单易用的。</strong>能装得上、看得懂、不心疼钱，就是好工具。用熟一款，比收藏六个图标有用一万倍。</p>
+
+<h3>核心原则：国内工具 + 国内模型是首选</h3>
+
+<p>对非程序员（尤其新手），<strong>首选"国内工具 + 国内模型"的组合</strong>，理由很简单：</p>
+<ol>
+  <li><strong>不用折腾</strong>：不需要科学上网，没有封号风险，下载安装直接能用；</li>
+  <li><strong>花钱少</strong>：国内工具普遍有免费额度，模型按需付费、丰俭由人；</li>
+  <li><strong>中文好</strong>：中文需求理解更自然，遇到问题更容易沟通。</li>
+</ol>
+
+<h3>具体怎么选（非程序员视角）</h3>
+
+<ul>
+  <li><strong>完全零基础，想快速做出第一个作品</strong> → 首选 <strong>CodeBuddy</strong>（零门槛模式，不用装编程环境）或 <strong>通义灵码</strong>（插件式，装好即用）</li>
+  <li><strong>一分钱都不想花</strong> → <strong>CodeGeeX</strong>，完全免费无付费档</li>
+  <li><strong>做微信小程序</strong> → 直接上 <strong>CodeBuddy</strong></li>
+  <li><strong>网络和支付都方便、想体验最好的编辑器体验</strong> → <strong>Cursor</strong>（免费版起步，注意科学上网成本）</li>
+  <li><strong>已经进阶、想要最强自动化</strong> → 再考虑 <strong>Claude Code</strong>（务必评估科学上网和封号风险）</li>
+</ul>
+
+<p><strong>⚠️ 价格随时可能调整，以官方最新为准。</strong></p>
+
+<h2>五、模型怎么选？2 个推荐 + 一个省钱思路</h2>
+
+<p>刚才说过：<strong>工具是外壳，模型是引擎</strong>。模型决定了 AI 有多聪明、以及你花多少钱。国内模型里，编程能力强、性价比又好的，推荐认准这两个：</p>
+
+<ol>
+  <li><strong>DeepSeek（深度求索）</strong>——公认的"性价比之王"：编程能力第一梯队，价格便宜到几乎可以忽略，国内外开发者都在用。</li>
+  <li><strong>通义千问 Qwen（阿里）</strong>——编程能力强（尤其 Coder 系列），中文理解好，免费额度大，跟国内工具适配最顺。</li>
+</ol>
+
+<p>这两家里，<strong>选一个作为你的主力模型</strong>就够了，编程能力完全够用。</p>
+
+<h3>省钱思路：按编程生命周期换不同档位的模型</h3>
+
+<p>一个项目从想法到上线，每个阶段的"活儿"难度不同，<strong>没必要全程都用最强（也最贵）的模型</strong>。聪明的用法是：</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>阶段</th><th>干什么</th><th>用什么档位</th><th>为什么</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>需求分析、写文档</td><td>把想法写清楚、写需求文档</td><td>便宜/轻量档</td><td>简单文本任务，贵模型纯浪费</td></tr>
+    <tr><td>日常写代码、小修改</td><td>写页面、加功能、改样式</td><td>主力档（DeepSeek / Qwen）</td><td>性价比最高，编程能力够强</td></tr>
+    <tr><td>疑难 Bug、大型重构</td><td>架构调整、排查复杂报错</td><td>最强档（思考型模型）</td><td>关键时刻再上"重武器"，效果立竿见影</td></tr>
+    <tr><td>批量、重复任务</td><td>批量处理文件、生成重复代码</td><td>便宜/轻量档</td><td>量大单价必须低</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="quote">核心心法：日常用主力档，复杂任务临时切最强档，简单任务用最便宜档。这样既保证了质量，又不会让账单失控——对成本敏感的非程序员、新手，这一点尤其重要。</div>
+
+<h2>六、避坑提醒：新手最常见的 5 个坑</h2>
+
+<p><strong>坑 1：工具收藏家</strong>——装了一堆工具，每个都点开过，一个都没用熟。AI 编程的能力来自"长期对话积累的默契"，频繁换工具是大忌。<strong>选定一款，用熟它。</strong></p>
+
+<p><strong>坑 2：盲目迷信国外工具</strong>——看到"国外第一梯队"就想跟风。对非程序员来说，科学上网、封号风险、国际支付、配置折腾，每一项都是成本。<strong>先问自己：我真的需要吗？国内工具大多够用。</strong></p>
+
+<p><strong>坑 3："AI 全自动"幻觉</strong>——AI 生成的是 60 分起点，跑不通、要修改是常态。不要指望一句话就交付完美成品，你的"验收 + 反馈"才是决定质量的关键。</p>
+
+<p><strong>坑 4：只看不练</strong>——教程看三天，不如动手做半小时。装好工具后立刻做一个小东西，遇到问题再回来查。</p>
+
+<p><strong>坑 5：忽视安全</strong>——AI 生成的代码可能带漏洞，涉及账号密码、支付、用户隐私的功能，别急着上线。这个系列第 13 篇会专门讲安全红线，先记住这条底线。</p>
+
+<h2>七、今天就能做的行动清单</h2>
+
+<ol>
+  <li><strong>选一款工具</strong>（建议 CodeBuddy 或通义灵码），花 10 分钟下载安装——装上就算赢了第一步；</li>
+  <li><strong>认准你的主力模型</strong>：在 DeepSeek 和通义千问 Qwen 里选一个（多数工具里直接选默认即可），记住"日常主力档、复杂最强档、简单最便宜档"的省钱心法；</li>
+  <li><strong>让 AI 做一个"待办事项"网页</strong>：打开工具，输入下面这段提示词试试：</li>
+</ol>
+
+<div class="prompt">"请帮我做一个待办事项网页：能添加、删除、标记完成；数据保存在本地不丢失；界面简洁，手机也能看；输出完整可运行的代码。"</div>
+
+<ol start="4">
+  <li><strong>把遇到的第一个问题记下来</strong>（哪怕只是"不知道代码文件放哪"），下期我们讲怎么把模糊的想法变成明确的"问题"——这是整个方法论的第一步。</li>
+</ol>
+
+<hr>
+
+<h2>写在最后</h2>
+
+<p>工具是武器，但决定战斗力的从来不是武器，而是<strong>使用武器的人</strong>。</p>
+
+<p>选一款顺手的工具、定一个省钱的主力模型，今天就开始第一次对话。<strong>你不需要懂代码，只需要说清楚你要什么——剩下的，交给 AI。</strong></p>
+
+<p>下一期：《第一步不是写代码，是发现问题》——我们聊聊整个系列最重要的起点：什么样的想法值得做？怎么验证它是真需求，而不是自嗨？</p>
+
+<div class="cta">👉 关注本号，跟着 15 篇系列文章，从零开始做出你的第一个产品。</div>
+
+<div class="footer-note">* 工具信息整理自各官方渠道及 2026 年公开评测，价格为撰写时情况，以官方最新为准。</div>
+
+</div>
+</body>
+</html>

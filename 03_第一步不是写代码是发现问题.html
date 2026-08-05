@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03｜第一步不是写代码，是发现问题</title>
+<style>
+  :root {
+    --text: #2d3239;
+    --text-light: #6b7280;
+    --primary: #2563eb;
+    --primary-light: #eff4ff;
+    --accent: #b45309;
+    --accent-bg: #fffbeb;
+    --border: #e5e7eb;
+    --table-head: #f3f6fc;
+    --warn: #b91c1c;
+    --warn-bg: #fef2f2;
+    --prompt-bg: #f8fafc;
+    --bg: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: #f5f6f8;
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .article {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--bg);
+    padding: 32px 26px 48px;
+  }
+  h1 {
+    font-size: 24px;
+    line-height: 1.45;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .subtitle {
+    color: var(--text-light);
+    font-size: 14px;
+    border-left: 4px solid var(--primary);
+    padding: 8px 0 8px 14px;
+    background: var(--primary-light);
+    margin-bottom: 26px;
+    border-radius: 0 6px 6px 0;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 38px 0 16px;
+    padding-left: 12px;
+    border-left: 4px solid var(--primary);
+    line-height: 1.5;
+  }
+  h3 {
+    font-size: 16.5px;
+    font-weight: 700;
+    margin: 24px 0 10px;
+    color: #1f2a44;
+  }
+  p { margin: 12px 0; }
+  strong { font-weight: 600; }
+  .lead {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 18px 0;
+    font-weight: 600;
+  }
+  ul, ol { margin: 12px 0 12px 24px; }
+  li { margin: 8px 0; }
+  .table-wrap { overflow-x: auto; margin: 16px 0; border-radius: 8px; border: 1px solid var(--border); }
+  table { border-collapse: collapse; width: 100%; min-width: 460px; font-size: 14.5px; }
+  th {
+    background: var(--table-head);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    white-space: nowrap;
+    color: #1f2a44;
+  }
+  td { padding: 10px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  .quote {
+    margin: 22px 0;
+    padding: 16px 18px;
+    background: #f0f9ff;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #075985;
+  }
+  .prompt {
+    margin: 14px 0;
+    padding: 14px 16px;
+    background: var(--prompt-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #334155;
+  }
+  .ref-list {
+    margin: 12px 0 12px 24px;
+    font-size: 14.5px;
+  }
+  .ref-list li { margin: 6px 0; }
+  .ref-list a { color: var(--primary); text-decoration: none; word-break: break-all; }
+  .footer-note {
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .cta {
+    margin: 28px 0 0;
+    text-align: center;
+    background: linear-gradient(135deg, #eff4ff, #f0f9ff);
+    padding: 20px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 17px;
+    color: #1d4ed8;
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1f2937;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .site-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .site-nav a:hover { color: #93c5fd; }
+  @media (max-width: 480px) {
+    body { font-size: 15px; }
+    h1 { font-size: 21px; }
+    h2 { font-size: 17.5px; }
+    .article { padding: 24px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="site-nav">
+  <a href="02_一文看懂AI编程.html">上一讲</a>
+  <a href="index.html">下一讲</a>
+  <a href="index.html">🏠 回到首页</a>
+</div>
+
+<div class="article">
+
+<h1>03｜第一步不是写代码，是发现问题</h1>
+
+<div class="subtitle">《非程序员 AI 编程实战》系列第 3 篇 · 需求分析的第 1-2 步</div>
+
+<p>上一期，我们选好了工具、认定了模型。现在你的 AI 编程工具应该已经装好了，说不定还照着行动清单，做出了人生第一个"待办事项"网页。</p>
+
+<p>然后呢？对着工具，你可能会突然发现：<strong>不知道该让它做什么。</strong></p>
+
+<p>别慌。这恰恰说明你摸到了 AI 编程真正的门道——<strong>第一步，不是写代码，是发现问题。</strong></p>
+
+<hr>
+
+<h2>一、为什么第一步不是写代码？</h2>
+
+<p>先讲个真实的故事。</p>
+
+<p>2026 年 5 月，《半月谈》报道了一位交互设计师。她春节跟同事去赶海，同事一路吐槽："现在的潮汐查询工具页面太复杂了，每次都要找半天。"她当时没说话，但把这个抱怨记在了心里。节后，她花了一周，用 AI 做了一个"赶海潮汐查询"小程序——打开就能看清潮汐状态和剩余赶海时间。</p>
+
+<p>注意这个顺序：<strong>她不是先学编程，而是先"发现"了一个问题——同事的吐槽。</strong></p>
+
+<p>这背后的逻辑很简单：</p>
+<ul>
+  <li><strong>AI 时代的分工变了</strong>：AI 负责"怎么做"（写代码），你负责"做什么"（想清楚要解决什么问题）。</li>
+  <li><strong>写代码已经不是瓶颈</strong>：Anthropic 2026 年 4 月的报告显示，35% 的代码提交已经由云端 Agent 自主创建。63% 的 AI 编程用户没有任何编程背景。会写代码，正在变成 AI 的默认能力。</li>
+  <li><strong>你真正的优势，恰恰是你离"问题"最近</strong>：你懂自己的生活、自己的工作、自己行业的痛。这些，AI 不懂，程序员也不懂。<strong>发现问题，是非程序员最值钱的技能。</strong></li>
+</ul>
+
+<p>反过来，看看反面案例：半月谈采访的一位文科生小陈，为了求职学 AI 编程，结果"经常失败，感觉像在死胡同里打转"。为什么？因为他一上来就让 AI 写代码，自己却没想清楚到底要做什么、做成什么样——AI 给的是 60 分的随机答案，他也说不出哪里不对。</p>
+
+<p><strong>想不清楚"要什么"，工具再强也白搭。</strong></p>
+
+<h2>二、问题从哪来？3 个最靠谱的来源</h2>
+
+<p>很多人的误区是"先有创意再找问题"。恰恰相反——<strong>好问题几乎都长在生活里，而不是坐在屋里想出来的。</strong>推荐三个最靠谱的来源：</p>
+
+<p><strong>来源 1：你自己的痛点</strong></p>
+<p>你生活、工作里反复出现的小麻烦，就是最好的起点。那位交互设计师做潮汐小程序，源于同事吐槽；还有位材料学博士生，因为研究要处理大量复杂的材料图谱数据，干脆做了个专属分析软件——需求就长在他每天的工作里。</p>
+
+<p><strong>来源 2：身边人的抱怨</strong></p>
+<p>同事的吐槽、家人的唠叨、群里朋友刷屏的"有没有人做这个"，全是需求信号。<strong>吐槽越具体，问题越真实。</strong>同样是那位材料学博士，还给学校做了个羽毛球拍穿线预约小程序——起因就是"校内穿线不方便"。</p>
+
+<p><strong>来源 3：你手头重复的活儿</strong></p>
+<p>每天都要做、又烦又机械的事——整理表格、统计报表、来回复制粘贴、跟进几十个群消息。任何一个，都可以做成你的第一个 AI 作品。<strong>重复，意味着有规律；有规律，就意味着 AI 能干。</strong></p>
+
+<div class="quote">记住一句话：别问"我想做什么产品"，要问"我最近被什么事烦到了"。</div>
+
+<h2>三、怎么验证它是"真需求"而不是"自嗨"？</h2>
+
+<p>找到了问题，先别急着动手。<strong>你想到的问题，未必是别人需要的问题</strong>——这就是最大的坑："自嗨"。</p>
+
+<p>怎么低成本验证？三个方法，今天就能做：</p>
+
+<p><strong>方法 1：问对 5 个人</strong></p>
+<p>去问真正会用这个东西的人——不是问家人朋友（他们只会说"挺好的，支持你"），而是问<strong>目标用户</strong>：同样被这个问题困扰的人。问三句话就够了：</p>
+<ul>
+  <li>"你遇到过这个麻烦吗？"</li>
+  <li>"你现在是怎么解决的？"</li>
+  <li>"如果有个工具能解决，你愿意用吗？"</li>
+</ul>
+<p>三个都答"是"，问题基本成立。</p>
+
+<p><strong>方法 2：搜一搜，看有没有现成方案</strong></p>
+<p>到搜索引擎、小程序商店、应用市场搜一搜。结果分两种：</p>
+<ul>
+  <li><strong>已经有类似产品</strong> → 好事，说明需求真实存在。你要做的是找到它的不足（太复杂？太贵？不好用？），这就是你的机会——潮汐小程序就是靠"更简单"胜出的。</li>
+  <li><strong>完全没有</strong> → 警惕！可能是"无人问津"，不是"无人发现"。回到方法 1，多问几个人。</li>
+</ul>
+
+<p><strong>方法 3：做最小验证（预告下期内容）</strong></p>
+<p>先不做完整产品，用最小成本做个"试验品"给真人用。具体怎么做，下一期《用 MVP 思维开局》会详细讲。</p>
+
+<h3>附：真需求检查表</h3>
+<p>拿一个问题过一遍这四行，全中就是真需求：</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>检查项</th><th>问自己</th><th>通过标准</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>频率</td><td>这个问题多久出现一次？</td><td>每周至少一次</td></tr>
+    <tr><td>痛苦</td><td>不解决会怎样？</td><td>会持续烦躁/耽误事</td></tr>
+    <tr><td>范围</td><td>只有我一个人有这问题吗？</td><td>身边至少还有 3 个人有</td></tr>
+    <tr><td>意愿</td><td>别人愿意为此花时间/花钱吗？</td><td>有人愿意</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、把模糊想法变成"明确问题"：三要素</h2>
+
+<p>验证完，最后一步：<strong>把脑子里的模糊想法，变成 AI 能听懂、能执行的问题描述。</strong>记住三要素：</p>
+
+<div class="quote">谁（目标用户）＋ 在什么场景下 ＋ 遇到了什么麻烦</div>
+
+<p>对比一下：</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>模糊说法 ❌</th><th>明确说法 ✅</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>我想做个学习工具</td><td>给考研二战的学生，在刷题时，找不到同类错题整理</td></tr>
+    <tr><td>我想做个记账软件</td><td>给月光族的上班族，在月底时，不知道自己钱花哪了</td></tr>
+    <tr><td>我想做个打卡小程序</td><td>给我这种想早睡的人，在睡前，总忍不住刷手机</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>看出差别了吗？明确的问题长这样：<strong>有具体的人、具体的场景、具体的麻烦。</strong>这样的问题，AI 才能给出靠谱的方案；你也能一眼看出它做得好不好。</p>
+
+<h3>让 AI 帮你问问题（免费拿个"产品顾问"）</h3>
+<p>自己拿不准？直接把模糊想法丢给 AI，让它来"拷问"你：</p>
+<div class="prompt">"我想做一个[你的想法]。在动手之前，请像产品经理一样反问我，帮我把需求想清楚。一次问一个问题，至少问 10 个问题，直到我们的需求描述包含：目标用户、使用场景、核心功能、不做哪些功能。"</div>
+<p>AI 会一个问题一个问题地追问——这个过程，就是在帮你想清楚"要什么"。<strong>这是 AI 时代最被低估的用法：让 AI 当你的思考教练，而不是代码机器。</strong></p>
+
+<h2>五、案例拆解：一个 45 岁调度员，两个月做出全公司都在用的系统</h2>
+
+<p>方法论说再多，不如看一遍完整的例子。这个案例来自 2026 年的公开报道，主角不是程序员，是个 45 岁的物流公司调度员。</p>
+
+<h3>背景：他的问题，从"怕被淘汰"开始</h3>
+<p>老刘在物流公司做了 20 年调度员。去年公司要上智能调度系统，他怕被裁员，硬着头皮自学 Python，三个月没入门，差点放弃。今年他换了一条路——<strong>用 AI 辅助编程</strong>，两个月做出了一个<strong>仓库库存预警系统</strong>（Python），现在全公司都在用，他还升了职。</p>
+<p>他做对的关键，不是会编程，而是<strong>一步一步把"问题"变成了"开发需求"</strong>。拆开看，正好是我们前面讲的方法：</p>
+
+<h3>第 1 步：从真实痛点出发（对应第 2 节"问题从哪来"）</h3>
+<p>老刘每天最头疼的，是仓库里两个具体的麻烦：</p>
+<ul>
+  <li><strong>库存数据经常对不上</strong>，月底盘点全靠人工翻账本；</li>
+  <li><strong>缺货了没人提前知道</strong>，等发现时采购已经来不及。</li>
+</ul>
+<p>痛点越具体，越容易解决。他没有想"我要做个大系统"，而是盯住了这两个天天遇到的麻烦。</p>
+
+<h3>第 2 步：把问题说具体（对应第 4 节"三要素"）</h3>
+<p>他把模糊的焦虑，变成了一句清晰的问题：</p>
+<div class="quote">"给仓库管理员用，在每天出入库和月底盘点时，能随时知道每个产品的实时库存，缺货了能自动提醒。"</div>
+<p>——谁（仓库管理员）＋ 场景（出入库、月底盘点）＋ 麻烦（库存对不上、缺货没人知道）。一句话，问题就立住了。</p>
+
+<h3>第 3 步：拆成明确的功能点（需求清单）</h3>
+<p>他没有说"我要做个管理系统"（太笼统，AI 也懵），而是拆成了三个明确的功能：</p>
+<ol>
+  <li><strong>入库</strong>：扫描条码，自动录入产品信息；</li>
+  <li><strong>出库</strong>：选择产品，自动扣减库存；</li>
+  <li><strong>预警</strong>：某个产品库存低于 10 件，自动发邮件通知采购员。</li>
+</ol>
+<p>三个功能点，每个都能被 AI 听懂、被自己验收。这就是"把需求说到功能级"。</p>
+
+<h3>第 4 步：画个草图辅助沟通</h3>
+<p>老刘的经验是：<strong>先画一张草图</strong>，把每个页面的按钮、输入框、显示内容标清楚，然后对着草图描述需求。这样 AI 生成的代码准确率能大幅提升——因为"看得见的需求"远比"口头说说的需求"清晰。</p>
+
+<h3>第 5 步：让 AI 复述确认（对应第 4 节"AI 反问"）</h3>
+<p>把需求描述丢给 AI 后，他还会让 AI 反过来确认一遍："请你复述一下我要做的功能，再问我 5 个问题，把遗漏的细节补上。"（比如：数据存在哪？谁有权限改？预警发到哪个邮箱？）——<strong>AI 问的问题，往往就是他没想到的边界。</strong></p>
+
+<h3>第 6 步：定稿"开发需求"</h3>
+<p>最后，形成一页纸的《开发需求》：目标用户、使用场景、三个核心功能、<strong>不做哪些功能</strong>（比如先不做多仓库、不做权限系统）。拿着这页纸，AI 就能开工了——剩下的就是生成代码、测试、微调。</p>
+
+<div class="quote">注意：老刘从"提出问题"到"确定开发需求"，花了大约两周；真正写代码，AI 只用了很短时间。<strong>大头永远在"想清楚"，不在"写出来"。</strong></div>
+
+<p>这个案例的每一步，都能在我们前面讲的方法里找到对应：发现问题（第 2 节）→ 验证（第 3 节）→ 三要素 + 功能清单（第 4 节）。<strong>方法不是空话，它就长在这样的真实过程里。</strong></p>
+
+<h2>六、避坑提醒：需求阶段最常见的 3 个坑</h2>
+
+<p><strong>坑 1：把模糊需求直接丢给 AI 生成</strong>——"帮我做个系统""写个完整功能"，跳过人工拆解、边界定义、验收条件固化环节，让 AI 自行脑补业务逻辑。<strong>你不说清楚的地方，AI 大概率会瞎猜。</strong></p>
+
+<p><strong>坑 2：一上来就想做"大东西"</strong>——"我要做个平台""我要做个 App"。"平台""App"是解决方案，不是问题。先回到三要素，把问题说小、说具体。<strong>问题越小，越容易做成。</strong></p>
+
+<p><strong>坑 3：闭门造车</strong>——自己闷头想了两周，结果发现早有人做过了，或者根本没人要。发现问题、验证需求，都要走出去：问人、搜索、看竞品。<strong>两小时的调研，胜过两周的闭门造车。</strong></p>
+
+<h2>七、今天就能做的行动清单</h2>
+
+<ol>
+  <li><strong>写下 3 个最近的"小抱怨"</strong>——工作里、生活里，任何让你觉得"烦"的小事；</li>
+  <li><strong>挑 1 个</strong>，用"谁 ＋ 场景 ＋ 麻烦"三要素写成一句话；</li>
+  <li><strong>去验证</strong>：问 3-5 个目标用户（不是家人朋友）+ 搜索看看有没有现成方案；</li>
+  <li><strong>把想法丢给 AI</strong>，用第 4 节的提示词，让它帮你把需求问清楚；</li>
+  <li><strong>把最终确认的问题记下来</strong>——下一期，我们将用它开启第一个项目。</li>
+</ol>
+
+<hr>
+
+<h2>写在最后</h2>
+
+<p><strong>AI 时代需要的人，是会发现问题、会提问题的人。</strong>而会用 AI 的第一步，不是会写提示词，是<strong>会发现问题</strong>。</p>
+
+<p>你不需要懂代码。你只需要做一个有心人：把生活里那个烦了你很久的小麻烦，认真地记下来，问清楚，说给 AI 听。</p>
+
+<p>下一期：《用 MVP 思维开局：先做 60 分再谈完美》——问题确认了，怎么用最小成本把它做出来？为什么"顺便加个功能"是项目杀手？</p>
+
+<div class="cta">👉 关注本号，跟着 15 篇系列文章，从零开始做出你的第一个产品。</div>
+
+<h2>参考文档</h2>
+<ol class="ref-list">
+  <li>《Vibecoding兴起，程序员被"卷"到了》，半月谈 2026 年第 9 期，记者：钟焯、鲍赫、潘禹杰，2026-05-22（腾讯新闻转载）：<a href="https://new.qq.com/rain/a/20260522A02TIF00">https://new.qq.com/rain/a/20260522A02TIF00</a></li>
+  <li>《2026年AI编程入门：非技术人员用自然语言开发工具的具体路径》，今日头条，2026 年（45 岁调度员老刘案例）：<a href="https://www.toutiao.com/article/7660134893578355240">https://www.toutiao.com/article/7660134893578355240</a></li>
+</ol>
+
+<div class="footer-note">* 文中行业数据另标注来源与时间，如 Anthropic 报告（2026-04）、TechTimes（2026-05）。</div>
+
+</div>
+</body>
+</html>

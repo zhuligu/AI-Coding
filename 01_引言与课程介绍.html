@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01｜引言：不会编程的你，2026 年也能做产品了</title>
+<style>
+  :root {
+    --text: #2d3239;
+    --text-light: #6b7280;
+    --primary: #2563eb;
+    --primary-light: #eff4ff;
+    --accent: #b45309;
+    --accent-bg: #fffbeb;
+    --border: #e5e7eb;
+    --table-head: #f3f6fc;
+    --bg: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: #f5f6f8;
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .article {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--bg);
+    padding: 32px 26px 48px;
+  }
+  h1 {
+    font-size: 24px;
+    line-height: 1.45;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .subtitle {
+    color: var(--text-light);
+    font-size: 14px;
+    border-left: 4px solid var(--primary);
+    padding: 8px 0 8px 14px;
+    background: var(--primary-light);
+    margin-bottom: 26px;
+    border-radius: 0 6px 6px 0;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 38px 0 16px;
+    padding-left: 12px;
+    border-left: 4px solid var(--primary);
+    line-height: 1.5;
+  }
+  p { margin: 12px 0; }
+  strong { font-weight: 600; }
+  em { font-style: normal; color: var(--primary); font-weight: 600; }
+  .lead {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 18px 0;
+    font-weight: 600;
+  }
+  ul, ol { margin: 12px 0 12px 24px; }
+  li { margin: 8px 0; }
+  .table-wrap { overflow-x: auto; margin: 16px 0; border-radius: 8px; border: 1px solid var(--border); }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14.5px; }
+  th {
+    background: var(--table-head);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    white-space: nowrap;
+    color: #1f2a44;
+  }
+  td { padding: 10px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  .stage-chip {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 2px 12px;
+    border-radius: 999px;
+    margin: 22px 0 8px;
+  }
+  .quote {
+    margin: 22px 0;
+    padding: 16px 18px;
+    background: #f0f9ff;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #075985;
+  }
+  .footer-note {
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .cta {
+    margin: 28px 0 0;
+    text-align: center;
+    background: linear-gradient(135deg, #eff4ff, #f0f9ff);
+    padding: 20px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 17px;
+    color: #1d4ed8;
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1f2937;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .site-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .site-nav a:hover { color: #93c5fd; }
+  @media (max-width: 480px) {
+    body { font-size: 15px; }
+    h1 { font-size: 21px; }
+    h2 { font-size: 17.5px; }
+    .article { padding: 24px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="site-nav">
+  <a href="index.html">上一讲</a>
+  <a href="02_一文看懂AI编程.html">下一讲</a>
+  <a href="index.html">🏠 回到首页</a>
+</div>
+
+<div class="article">
+
+<h1>01｜引言：不会编程的你，2026 年也能做产品了</h1>
+
+<div class="subtitle">《非程序员 AI 编程实战》系列开篇 · 献给每一个有想法、但从没写过代码的人</div>
+
+<p class="lead">2026 年 5 月，《半月谈》报道了一个有意思的现象：一位交互设计师，花一周时间做了个"赶海潮汐查询"小程序——打开就能看清潮汐状态和剩余赶海时间。起因只是春节同事赶海时吐槽现有工具页面太复杂。她没写过一行代码，AI 替她写了。</p>
+
+<p>同一时期，百度在 AIGC 产业峰会上公布：旗下 AI 应用搭建平台秒哒，<strong>87% 的用户完全不懂代码</strong>；有个 8 岁的小学生，靠和 AI 聊天"做"出了一个自己想象中的操作系统；还有一家"一人公司"，没有程序员，只靠一位项目经理，拿下了千万订单。</p>
+
+<p>而 Anthropic 在 2026 年 4 月发布的数据显示：<strong>35% 的代码提交已经由云端 Agent 自主创建，人类只负责 Review 和合并。</strong></p>
+
+<p>程序员们开始焦虑了。但我想说的是另一件事——<strong>机会，正向普通人敞开</strong>。</p>
+
+<hr>
+
+<h2>一、发生了什么：编程的"第四次革命"</h2>
+
+<p>整个计算机发展史，就是编程门槛不断降低的历史：</p>
+<ul>
+  <li>第一次革命：机器语言（写的是 0 和 1）</li>
+  <li>第二次革命：汇编语言（写的是指令）</li>
+  <li>第三次革命：高级语言（写的是 Java、Python）</li>
+  <li><strong>第四次革命：自然语言（你只需说清楚"要什么"）</strong></li>
+</ul>
+
+<p>这门新技术，就是 <strong>AI 编程</strong>——你负责提出需求和审核结果，代码的实现细节全部交给 AI 完成。网友调侃：逐行手写代码的古老方式，如今被戏称为"古法编程"。</p>
+
+<p>2026 年的数据已经说明这不是小圈子游戏：</p>
+<ul>
+  <li><strong>63%</strong> 的 AI 编程用户没有任何编程背景（TechTimes，2026-05）</li>
+  <li><strong>35%</strong> 的代码提交由云端 Agent 自主创建（Anthropic，2026-04）</li>
+  <li>各种"零基础做 App"的社区动辄数万成员，海外相关社区已超 2.3 万人</li>
+</ul>
+
+<p><strong>编程平权的时代到了。</strong>而平权带来一个残酷的推论：会用 AI 的普通人，将获得过去只有程序员才有的"创造能力"。</p>
+
+<h2>二、这门"课"讲什么：一套 12 步的完整方法论</h2>
+
+<p>市面上教你"AI 编程"的内容很多，但大多是零散的技巧：怎么装工具、怎么抄一段提示词。</p>
+
+<p>这个系列不一样。我们不讲语法——<strong>AI 会写代码，你负责思考"要做什么"。重点是学方法论，不是学语法。</strong></p>
+
+<p>本系列的核心框架，参考了开源项目《AI 编程新手指南》（vibecoding.waytomaster.com）的 <strong>12 步完整方法论</strong>，从想法到上线的系统化路径：</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>阶段</th><th>步骤</th><th>你会学会</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>需求分析（1-3 步）</td><td>发现问题 → 需求验证 → 定义 MVP</td><td>判断一个 idea 值不值得做，怎么把模糊想法变成明确需求</td></tr>
+    <tr><td>技术决策与环境（4-6 步）</td><td>技术栈科普 → 技术决策 → 环境搭建</td><td>一行代码不懂也能选对工具、装好环境</td></tr>
+    <tr><td>编码协作（7-8 步）</td><td>AI 协作 → 理解代码</td><td>高效指挥 AI，看得懂它写出来的东西</td></tr>
+    <tr><td>测试与部署（9-10 步）</td><td>测试策略 → 部署上线</td><td>会测试把关、把产品部署到网上让别人用</td></tr>
+    <tr><td>迭代与维护（11-12 步）</td><td>问题解决 → Git 与迭代</td><td>遇到报错不慌、管理版本、持续迭代</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>再加三块独门内容：</strong></p>
+<ol>
+  <li><strong>7 大常见陷阱</strong>——追求完美、过度依赖 AI、不重视测试、技术选型错误、闭门造车、开源协议问题、过度配置工具。每一条都是前辈用真金白银踩出来的坑。</li>
+  <li><strong>真实项目拆解</strong>——完整拆解一个从"开源 MVP"走向"SaaS 商业化"的真实项目（AI News RSS），不是玩具项目，是真正上线运营的产品。</li>
+  <li><strong>2026 安全红线</strong>——今年 2 月，一个叫 Moltbook 的应用上线 3 天就泄露了 150 万条 API 密钥和 3.5 万个邮箱，根源只是数据库权限少配了一行。<strong>AI 让每个人都能造东西，也让每个人都得懂点安全常识。</strong>这一课，别人不教，我们教。</li>
+</ol>
+
+<h2>三、课程大纲：15 篇，带你从 0 到 1</h2>
+
+<p>整个系列共 15 篇，按"认知启蒙 → 需求分析与选型 → 编码部署 → 进阶避坑 → 案例变现"五个阶段递进。每一篇都是一个完整闭环：<strong>讲透一个主题 + 常见坑 + 今天就能做的行动清单。</strong></p>
+
+<span class="stage-chip">第一阶段 · 认知启蒙（第 1-2 篇）——先看清地图</span>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>篇</th><th>主题</th><th>这篇解决什么问题</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>01</td><td>引言：不会编程的你，2026 年也能做产品了</td><td>为什么是现在、这个系列能给你什么（本篇）</td></tr>
+    <tr><td>02</td><td>一文看懂 AI 编程：它是什么、有哪些工具</td><td>概念科普 + 工具全景：Claude Code / Codex / Cursor / 通义灵码 / CodeGeeX / CodeBuddy，各自适合谁</td></tr>
+  </tbody>
+</table>
+</div>
+
+<span class="stage-chip">第二阶段 · 需求分析、技术选型与环境搭建（第 3-6 篇）——想清楚，再动手</span>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>篇</th><th>主题</th><th>这篇解决什么问题</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>03</td><td>第一步不是写代码，是发现问题</td><td>需求从哪来？怎么验证它是真需求，而不是自嗨</td></tr>
+    <tr><td>04</td><td>用 MVP 思维开局：先做 60 分再谈完美</td><td>为什么"顺便加个功能"是项目杀手？怎么控制范围蔓延</td></tr>
+    <tr><td>05</td><td>技术栈别纠结：非程序员怎么做技术决策</td><td>一行代码不会，也能选对工具：网页 / 小程序 / App 各用什么</td></tr>
+    <tr><td>06</td><td>环境搭建不求人：把 AI 编程环境跑起来</td><td>工具安装、账号、网络与付费方案，少走弯路</td></tr>
+  </tbody>
+</table>
+</div>
+
+<span class="stage-chip">第三阶段 · 编码、测试与部署（第 7-10 篇）——把想法做出来</span>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>篇</th><th>主题</th><th>这篇解决什么问题</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>07</td><td>和 AI 对话的核心技能：需求描述与拆解</td><td>提示词黄金公式 + 任务拆解 + 分步实现（附大量正反例）</td></tr>
+    <tr><td>08</td><td>看得懂代码：非程序员必懂的 10 个概念</td><td>变量、函数、循环、接口、报错……让 AI 逐行给你翻译</td></tr>
+    <tr><td>09</td><td>测试与调试：AI 写的代码，谁来把关</td><td>为什么必须测、怎么测、报错信息怎么读（AI 代码 40-62% 带漏洞）</td></tr>
+    <tr><td>10</td><td>上线部署：让作品被别人用起来</td><td>域名、托管平台、数据库与后端——打通"能用"到"被用"</td></tr>
+  </tbody>
+</table>
+</div>
+
+<span class="stage-chip">第四阶段 · 进阶与避坑（第 11-13 篇）——从能用到用得稳</span>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>篇</th><th>主题</th><th>这篇解决什么问题</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>11</td><td>Git 和开源：你的作品需要版本管理</td><td>Git 5 个最常用操作 + 开源协议怎么选，别在版权上翻车</td></tr>
+    <tr><td>12</td><td>非程序员做项目的 7 大陷阱</td><td>追求完美、过度依赖 AI、不重视测试……一次讲透，附修正方案</td></tr>
+    <tr><td>13</td><td>安全红线：别让你的 AI 应用"裸奔"上线</td><td>Moltbook 泄露事件复盘：什么能自己做、什么必须找专业的人</td></tr>
+  </tbody>
+</table>
+</div>
+
+<span class="stage-chip">第五阶段 · 案例与变现（第 14-15 篇）——把能力变成价值</span>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>篇</th><th>主题</th><th>这篇解决什么问题</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>14</td><td>真实案例拆解：从开源 MVP 到 SaaS 商业化</td><td>AI News RSS 全流程复盘：从 0 到 1 做产品、上线、开始赚钱</td></tr>
+    <tr><td>15</td><td>学完之后：非程序员 AI 编程的 5 条出路</td><td>自用提效 / 接单 / 开源变现 / 做培训 / 转型；附完整学习路线图</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="quote">为什么是这个顺序？因为每一步都是下一步的前提：先想清楚做什么（03-04），再选对工具搭好环境（05-06），学会指挥 AI 并看得懂结果（07-08），把关质量、部署上线（09-10），最后学会长期维护（11-13），并看到变现的可能（14-15）。<strong>跟着走完 15 篇，你就拥有了"从想法到产品"的完整能力。</strong></div>
+
+<h2>四、这个系列，适合谁？不适合谁？</h2>
+
+<p><strong>✅ 特别适合：</strong></p>
+<ul>
+  <li><strong>文科生、非计算机专业的学生</strong>——没有任何技术背景，但有创意、有想法，想亲手做出能用的东西，不想再"求人写代码"</li>
+  <li><strong>工程技术人员</strong>（机械、材料、生物、化学、土木等非软件行业）——要处理数据、开发专业小工具，AI 编程能让你把行业经验直接变成趁手的工具</li>
+  <li><strong>管理人员 / 产品经理 / 运营 / 市场</strong>——想自己动手验证想法，不再依赖开发排期，做自己的 MVP</li>
+  <li><strong>想低成本创业的人</strong>——想验证 idea、快速做出产品原型、甚至开始赚钱</li>
+</ul>
+
+<p><strong>❌ 不太适合：</strong></p>
+<ul>
+  <li><strong>软件工程师</strong>——本系列面向零基础读者，方法论对你过于基础；如果你已经是专业开发者，建议直接学习更深入的工程化课程，把 AI 编程能力做成团队资产</li>
+  <li>只想看"三分钟做个 App"标题党、不想动脑动手的人（方法论需要实践）</li>
+  <li>追求"AI 一键全自动、我啥都不用管"的人（AI 是 60 分起点，剩下 40 分要靠你的思考和调试）</li>
+  <li>时间极不充裕、连每周一小时都抽不出来的人</li>
+</ul>
+
+<h2>五、学完这个系列，你能达到什么水平？</h2>
+
+<p>参考极客时间 TOP1 课程《Claude Code 工程化实战》笔记的"能力阶梯"思路，非程序员版是这样的 <strong>5 级阶梯</strong>：</p>
+<ol>
+  <li><strong>会用</strong>：能用 AI 工具做出自己的第一个网页 / 小程序 / 小工具</li>
+  <li><strong>会想</strong>：能判断什么需求值得做，把模糊想法拆成 AI 能执行的明确任务</li>
+  <li><strong>会验</strong>：能测试、能读报错、能判断 AI 给的代码靠不靠谱</li>
+  <li><strong>会上线</strong>：能把作品部署上线，分享给别人用，甚至接单变现</li>
+  <li><strong>会守</strong>：懂安全底线和合规红线，不做"裸奔上线"的危险应用</li>
+</ol>
+
+<p>从第 1 级到第 5 级，就是这个系列 15 篇文章要带你走完的路。</p>
+
+<h2>六、怎么用这个系列？</h2>
+
+<p><strong>方式一：跟着节奏系统学（推荐）</strong></p>
+<ul>
+  <li>每周更新 2 篇，按 01 → 15 顺序阅读</li>
+  <li>每篇结尾都有"今天就能做"的行动清单，<strong>看完必须动手</strong>——方法论只有用过才是你的</li>
+  <li>篇与篇之间有钩子连接，上一篇的结论是下一篇的前提</li>
+</ul>
+
+<p><strong>方式二：当工具书查阅</strong></p>
+<ul>
+  <li>遇到具体问题（"怎么部署""报错怎么办""Git 是什么"）直接翻对应篇目</li>
+  <li>每篇都有"常见坑 + 修正方案"小节，速查速用</li>
+</ul>
+
+<p><strong>方式三：下载 HTML 离线版，学习更方便</strong></p>
+<ul>
+  <li>本系列课程会同步制作 <strong>HTML 版本</strong>，与示例代码一起上传 <strong>GitHub</strong>，全部免费开源</li>
+  <li>下载后无需联网、无需登录，浏览器直接打开就能看</li>
+  <li>支持目录导航、代码一键复制，学完还能当"案头工具书"随时速查</li>
+</ul>
+
+<p><strong>配套建议</strong>：实践时可以把 AI 工具当作贴身助教——遇到不懂的概念，直接问 AI"用大白话解释给我听"，比翻教程快 10 倍。这是 AI 时代最好的学习方式。</p>
+
+<hr>
+
+<h2>写在最后</h2>
+
+<p>有人问我：这个系列教出来的人，会不会"抢"了程序员的饭碗？</p>
+
+<p>我的回答是：<strong>AI 不会取代工程师，但会用 AI 的工程师会取代不会用的；同样，AI 不会取代普通人，但会用 AI 的普通人，会取代不会用的。</strong></p>
+
+<p>2026 年，编程能力正在从"专业壁垒"变成"通用技能"，就像二十年前的 Office、十年前的 Excel。你可以不学，但你的竞争对手会学。</p>
+
+<p><strong>这个系列，就是给所有"不会编程但想创造"的人，递上的第一块敲门砖。</strong></p>
+
+<p>下一期：《一文看懂 AI 编程：它是什么、有哪些工具》，我们聊聊这个时代的地图——有哪些趁手的工具、各自适合谁、怎么选。</p>
+
+<div class="cta">👉 关注本号，跟着 15 篇系列文章，从零开始做出你的第一个产品。</div>
+
+<div class="footer-note">* 本系列核心方法论参考开源项目《AI 编程新手指南》（vibecoding.waytomaster.com，100% 免费开源）；行业数据均标注来源与时间。</div>
+
+</div>
+</body>
+</html>
