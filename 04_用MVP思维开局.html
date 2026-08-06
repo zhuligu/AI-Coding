@@ -143,6 +143,24 @@
     color: #1d4ed8;
   }
   hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1f2937;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .site-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .site-nav a:hover { color: #93c5fd; }
   @media (max-width: 480px) {
     body { font-size: 15px; }
     h1 { font-size: 21px; }
@@ -152,6 +170,12 @@
 </style>
 </head>
 <body>
+<div class="site-nav">
+  <a href="03_第一步不是写代码是发现问题.html">上一讲</a>
+  <a href="05_技术栈别纠结.html">下一讲</a>
+  <a href="index.html">🏠 回到首页</a>
+</div>
+
 <div class="article">
 
 <h1>04｜用 MVP 思维开局：先做 60 分再谈完美</h1>
