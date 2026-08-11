@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06｜环境搭建不求人：把 AI 编程环境跑起来 - 非程序员 AI 编程实战</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f0f2f5;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    color: #2c3e50;
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .article {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 40px 36px 48px;
+    box-shadow: 0 1px 8px rgba(0,0,0,.06);
+  }
+  h1 {
+    font-size: 26px;
+    line-height: 1.4;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #8a94a6;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eef0f3;
+    padding-bottom: 16px;
+  }
+  h2 {
+    font-size: 20px;
+    color: #1a1a1a;
+    margin: 36px 0 14px;
+    padding-left: 12px;
+    border-left: 4px solid #2b7de9;
+    line-height: 1.4;
+  }
+  h3 {
+    font-size: 17px;
+    color: #2b7de9;
+    margin: 26px 0 10px;
+  }
+  h4 {
+    font-size: 16px;
+    color: #1a1a1a;
+    margin: 20px 0 8px;
+    padding: 10px 14px;
+    background: #f2f7ff;
+    border: 1px solid #dce9fb;
+    border-radius: 8px;
+  }
+  p { margin: 10px 0; }
+  strong { color: #1a1a1a; }
+  ul, ol { margin: 10px 0 10px 24px; }
+  li { margin: 6px 0; }
+  a { color: #2b7de9; text-decoration: none; border-bottom: 1px solid #bcd4f5; }
+  a:hover { color: #1a5fc7; }
+  .lead {
+    font-size: 16px;
+    color: #4a5568;
+    margin: 12px 0;
+  }
+  .conclusion {
+    background: #eaf3ff;
+    border-left: 4px solid #2b7de9;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 15.5px;
+    color: #1a3a6b;
+  }
+  .tip {
+    background: #fffbea;
+    border-left: 4px solid #f5a623;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 15px;
+    color: #6b4a12;
+  }
+  .prompt {
+    background: #f7f8fa;
+    border: 1px dashed #c3cad6;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13.5px;
+    color: #2c3e50;
+    line-height: 1.7;
+  }
+  pre {
+    background: #1e2530;
+    color: #e6e9ef;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 14px 0;
+    overflow-x: auto;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  code { font-family: "SF Mono", Consolas, "Courier New", monospace; font-size: 0.92em; background: #f0f3f8; padding: 1px 5px; border-radius: 4px; color: #c0392b; }
+  pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 540px;
+  }
+  th {
+    background: #f2f6fb;
+    color: #1a3a6b;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid #dfe6ee;
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 12px;
+    border: 1px solid #e7ecf2;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #fafbfc; }
+  .closing {
+    margin-top: 36px;
+    background: linear-gradient(135deg, #2b7de9, #1a5fc7);
+    color: #fff;
+    border-radius: 10px;
+    padding: 20px 22px;
+    text-align: center;
+    font-size: 15.5px;
+  }
+  .closing strong { color: #fff; }
+  .footnote {
+    margin-top: 20px;
+    font-size: 12.5px;
+    color: #9aa4b2;
+    text-align: center;
+  }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1f2937;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .site-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .site-nav a:hover { color: #93c5fd; }
+  @media (max-width: 480px) {
+    .article { padding: 24px 18px 36px; font-size: 15px; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 16px; }
+    body { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="site-nav">
+  <a href="05_技术栈别纠结.html">上一讲</a>
+  <a href="index.html">下一讲</a>
+  <a href="index.html">🏠 回到首页</a>
+</div>
+
+<div class="article">
+
+  <h1>06｜环境搭建不求人：把 AI 编程环境跑起来</h1>
+  <div class="subtitle">《非程序员 AI 编程实战》系列第 6 篇 · 需求分析第 6 步：环境搭建</div>
+
+  <p class="lead">上一期我们定了技术栈：以 web 应用为主，后端 Python（Flask），前端按三档走（HTML / Vue.js / React）。</p>
+  <p>现在轮到最让新人发怵的一关：<strong>环境搭建</strong>。</p>
+  <p>很多人学编程，倒在了第一步——装软件。教程第一句"先装好 Python 和开发环境"，然后冒出一堆术语：PATH、虚拟环境、Node.js、npm……还没开始，热情就凉了一半。</p>
+  <p>但 2026 年，这件事已经变了。<strong>对用 AI 编程的非程序员来说，"环境"不再是拦路虎，而是几个"下一步、下一步"的事。</strong> 这篇文章，我就把"装环境"这件事拆成"照着点就行"的保姆级流程——从 Python、虚拟环境、常用包，到一个能真正跑起来的网站。</p>
+
+  <div class="conclusion">
+    <strong>结论先放这：</strong>非程序员最顺的环境 = 一个国内 AI 编程工具（推荐 CodeBuddy）+ 一个运行时（Python）+ 一个编辑器。不用科学上网、花钱少、中文界面，半小时内全部跑起来。
+  </div>
+
+  <h2>一、先搞懂：你的"环境"到底要装哪几样</h2>
+
+  <p>别被"环境"两个字吓住。做 AI 编程，你只需要三类东西，像厨房三件套：</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>你要的</th><th>是什么</th><th>类比</th><th>你都需要吗</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>AI 编程助手</strong></td><td>帮你写代码的智能体（CodeBuddy、Cursor、通义灵码…）</td><td>你的"主厨"</td><td>✅ 都要</td></tr>
+        <tr><td><strong>运行时</strong></td><td>让代码真正跑起来的引擎（Python）</td><td>灶台和火</td><td>✅ 需要</td></tr>
+        <tr><td><strong>编辑器 / 工作台</strong></td><td>你写需求、看代码、点运行的界面（IDE）</td><td>操作台</td><td>✅ 都要</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>好消息</strong>：很多国产工具把这三样打包好了。比如 CodeBuddy 智能 IDE，装好就能聊天、写代码、跑程序一条龙，不用你分别折腾。所以下面大部分步骤，本质是"装一个工具 → 打开 → 开干"。</p>
+
+  <div class="tip">
+    💡 <strong>呼应第 2 篇</strong>：那 6 款顶级编程 Agent（Claude Code / Codex / Cursor / 通义灵码 / CodeGeeX / CodeBuddy）随便哪款都够用，选一个顺手、国内能直接用的。对非程序员，我们<strong>首选国内工具 + 国内模型</strong>——不用折腾网络、花钱少、中文语境好。本文以 CodeBuddy 为主演示，选了别的工具，安装逻辑一模一样。
+  </div>
+
+  <h2>二、Python 虚拟环境介绍</h2>
+
+  <p>等你走到第四节"跑起你的第一个网站"时，会碰到一个隐藏概念：<strong>环境</strong>。这一节先把它讲透，顺便介绍两个专业开发者也常用的工具——<code>venv</code> 和 <code>conda</code>。</p>
+
+  <div class="tip">
+    先泼盆冷水：对非程序员、做小项目，<strong>虚拟环境不是必选项</strong>。你在 CodeBuddy 里直接让 AI 装包、跑程序，绝大多数情况都能成。但了解它，能帮你避开"装了一堆东西后电脑越来越乱、项目互相打架"的大坑。
+  </div>
+
+  <h3>为什么需要"虚拟环境"？</h3>
+
+  <p>打个比方：你接了两个不同的活儿，一个要 1 号扳手，一个要 2 号扳手。如果所有工具都扔在同一个大箱子里，扳手多了就会乱、会撞、会找不到。</p>
+
+  <p>Python 也一样：你做的每个项目（网站、脚本、分析）都依赖一些"功能包"（比如 Flask）。如果不加区分地全装到电脑的同一个 Python 里，会出现两个问题：</p>
+
+  <ul>
+    <li><strong>版本打架</strong>：A 项目要 Flask 2.x，B 项目要 Flask 1.x，装一起就冲突。</li>
+    <li><strong>越来越乱</strong>：时间一长根本记不清哪个包是哪个项目用的，想清理都不敢动。</li>
+  </ul>
+
+  <p><strong>虚拟环境（virtual environment）就是给每个项目单独配一个"小工具箱"</strong>：箱子之间互不干扰，A 项目怎么折腾都不影响 B 项目。这也是为什么专业开发者几乎每个项目都开一个独立环境。</p>
+
+  <p>下面介绍两种最常见的"造箱子"工具。</p>
+
+  <h3>工具一：venv（Python 自带，零安装）</h3>
+
+  <p><code>venv</code> 是 Python 官方内置的虚拟环境工具——<strong>只要你装了 Python（见第四节第 1 步），它就自带，不用额外下载</strong>。对非程序员、做普通网站 / 脚本，用它就够了。</p>
+
+  <h4>① 创建环境（在你想放项目的文件夹里打开命令行）</h4>
+
+  <pre><code>python -m venv myenv</code></pre>
+
+  <p>这会在当前目录生成一个叫 <code>myenv</code> 的文件夹，就是你的"小工具箱"。（名字随便起，不叫 myenv 也行。）</p>
+
+  <h4>② 进入（激活）环境</h4>
+
+  <ul>
+    <li><strong>Windows</strong>：
+      <pre><code>myenv\Scripts\activate</code></pre>
+    </li>
+    <li><strong>Mac / Linux</strong>：
+      <pre><code>source myenv/bin/activate</code></pre>
+    </li>
+  </ul>
+
+  <p>激活成功后，命令行最前面会出现 <code>(myenv)</code> 字样，意思是"你现在就在这个小箱子里干活"。</p>
+
+  <h4>③ 在环境里装包、跑程序</h4>
+
+  <p>激活后，你所有的 <code>pip install</code> 只会装进这个箱子，不影响别的项目。比如：</p>
+
+  <pre><code>pip install flask
+python app.py</code></pre>
+
+  <h4>④ 退出环境</h4>
+
+  <p>干完活，敲一句就回到电脑的全局 Python：</p>
+
+  <pre><code>deactivate</code></pre>
+
+  <h3>工具二：conda（数据科学 / AI 首选，需安装）</h3>
+
+  <p><code>conda</code> 比 venv 更"重"也更强：它不光能管 Python 的包，还能<strong>帮你装 Python 本身</strong>、装一些不是用 Python 写的科学计算库。做数据分析、AI、机器学习的人几乎都用它。</p>
+
+  <p>conda 有两个常见发行版：</p>
+
+  <ul>
+    <li><strong>Anaconda</strong>：全家桶，预装了上百个常用库，体积大（几个 G）。</li>
+    <li><strong>Miniconda</strong>：只装最核心的部分，体积小、更轻量，<strong>新手推荐装这个</strong>。</li>
+  </ul>
+
+  <h4>① 安装 conda</h4>
+
+  <p>去官网下载，按提示一路"下一步"即可：</p>
+  <ul>
+    <li><strong>Anaconda</strong>：<a href="https://www.anaconda.com" target="_blank">https://www.anaconda.com</a></li>
+    <li><strong>Miniconda</strong>：<a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">https://docs.conda.io/en/latest/miniconda.html</a></li>
+  </ul>
+
+  <h4>② 创建环境（指定 Python 版本，比如 3.12）</h4>
+
+  <pre><code>conda create -n myenv python=3.12</code></pre>
+
+  <h4>③ 激活环境</h4>
+
+  <pre><code>conda activate myenv</code></pre>
+
+  <p>激活后同样会显示 <code>(myenv)</code> 前缀。</p>
+
+  <h4>④ 在环境里装包</h4>
+
+  <p>conda 自己有一个"应用商店"，也可以用 pip：</p>
+
+  <pre><code>conda install flask
+# 或者
+pip install flask</code></pre>
+
+  <h4>⑤ 退出环境</h4>
+
+  <pre><code>conda deactivate</code></pre>
+
+  <h3>一句话怎么选？</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>你的场景</th><th>推荐</th><th>理由</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>普通网页应用 / 小脚本</td><td><strong>venv</strong></td><td>Python 自带，零安装，够用</td></tr>
+        <tr><td>数据分析 / AI / 机器学习</td><td><strong>conda</strong></td><td>能管 Python 本体和非 Python 库，省心</td></tr>
+        <tr><td>完全不想折腾</td><td>让 CodeBuddy 代劳</td><td>跟 AI 说"帮我建个虚拟环境并装好依赖"即可</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip">
+    💡 <strong>给非程序员的真心话</strong>：别被这一节吓到。等你走到第四节"装 Python、跑网站"那两步时，完全可以先不碰虚拟环境。等哪天项目变多了、开始报"包版本冲突"的错，再回来翻这一节也不迟。真要用的话，直接让 CodeBuddy 帮你建——你只需要知道"有这回事、为什么需要"就够了。
+  </div>
+
+  <h2>三、Python 包介绍与安装（新手最常问：那些"库"到底是什么）</h2>
+
+  <p>你在第四节就会看到 <code>pip install flask</code> 这样的命令，也会看到 AI 一句话就帮你装好"Flask"。那这个 <strong>Flask</strong> 到底是个啥？这一节先讲清"包 / 库"是什么，再列几个非程序员最用得上的"神兵利器"，以及怎么装得又快又稳。</p>
+
+  <h3>什么是"包"（也叫"库 / 模块"）？</h3>
+
+  <p>我们用"做菜"做个比喻：Python 本身是一个灶台，能烧热、能下锅，但你要做出"红烧肉""糖醋鱼"这样的硬菜，得有现成的<strong>调料和配菜</strong>。<strong>包（package）就是别人已经配好的"料"——不同的调料和菜</strong>——把某类常用功能打包好，你直接拿来下锅，不用从零备料。</p>
+
+  <p>比如：</p>
+
+  <ul>
+    <li>你想做网站，有人写好了 <strong>Flask</strong> 这个包，装上就能用几行代码起一个网站；</li>
+    <li>你想抓网页数据，有人写好了 <strong>requests</strong> 包，装上就能几行代码发网络请求；</li>
+    <li>你想处理 Excel 表格，有人写好了 <strong>pandas</strong> 包，装上就能像表格软件一样算数据。</li>
+  </ul>
+
+  <p><strong>这就是为什么 AI 编程这么香</strong>：你不用自己写这些底层功能，只管"点菜"（告诉 AI 用哪个包、做什么），AI 帮你装、帮你调。对非程序员来说，"会用包"比"会写代码"重要得多。</p>
+
+  <h3>非程序员最值得认识的几个包</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>包名</th><th>干什么用</th><th>典型场景</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Flask</strong></td><td>轻量网站后端框架</td><td>做能登录、能存数据的网页（本系列主线）</td></tr>
+        <tr><td><strong>requests</strong></td><td>发起网络请求、调用 API</td><td>查天气、查快递、接第三方数据（第 4 篇潮汐就是靠它查到的）</td></tr>
+        <tr><td><strong>pandas</strong></td><td>表格数据处理与分析</td><td>读 Excel / CSV、筛选统计、自动出报表</td></tr>
+        <tr><td><strong>openpyxl</strong></td><td>读写 Excel 文件</td><td>自动填表、批量改单元格、导出报表</td></tr>
+        <tr><td><strong>matplotlib</strong></td><td>画图表（折线 / 柱状 / 饼图）</td><td>把数据画成图，做可视化</td></tr>
+        <tr><td><strong>Pillow</strong></td><td>处理图片（裁剪 / 压缩 / 加字）</td><td>批量改图、加水印、生成缩略图</td></tr>
+        <tr><td><strong>numpy</strong></td><td>数值计算底座</td><td>大量数字运算（pandas 背后就靠它）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip">
+    不用全装、不用全懂。用到哪个，让 CodeBuddy 帮你装、帮你写就行。这张表是给你"有个印象"：下次想做某件事，知道大概有现成工具，直接跟 AI 说"用 pandas 帮我处理这个 Excel"即可。
+  </div>
+
+  <h3>怎么安装一个包？</h3>
+
+  <p>核心就一句命令（在命令行里敲，或在 CodeBuddy 里让 AI 帮你执行）：</p>
+
+  <pre><code>pip install 包名</code></pre>
+
+  <p>比如装上面提到的 pandas：</p>
+
+  <pre><code>pip install pandas</code></pre>
+
+  <p>装完，你的 Python 就多了这份"调料和菜"，代码里 <code>import pandas</code> 就能用。</p>
+
+  <div class="tip">
+    💡 <strong>小技巧</strong>：一次装多个也行，空格隔开即可：<code>pip install pandas openpyxl matplotlib</code>。
+  </div>
+
+  <h3>国内镜像加速（装包慢？看这里）</h3>
+
+  <p><code>pip</code> 默认从国外官方源下载，国内网络常慢甚至超时。最简单的加速办法，是在安装命令后面加一句国内镜像源（相当于把"应用商店的服务器"搬到国内，速度飞起）：</p>
+
+  <pre><code>pip install pandas --index-url https://pypi.tuna.tsinghua.edu.cn/simple</code></pre>
+
+  <p>想一劳永逸地永久换源（设置环境变量）？具体命令见 <strong>第四节"第 1 步补充：pip 与国内镜像源（新手必看）"</strong>——那里有完整的图文步骤。</p>
+
+  <h2>四、Python 网页应用（Flask）</h2>
+
+  <p>这是本系列的主线，也是你做数据与 AI 网页应用要走的路。</p>
+
+  <h3>第 1 步：装 Python（约 5 分钟）</h3>
+
+  <p>网页应用的后端用 Python，所以先把它装好。</p>
+
+  <p><strong>先说清楚 Python 是什么</strong>：简单讲，它就是让 AI 给你写的那些 <code>.py</code> 代码真正"跑起来"的引擎（就是上文"厨房三件套"里的灶台）。它本身是免费的，从官网下载安装即可。</p>
+
+  <h4>① 下载 Python</h4>
+
+  <p>打开浏览器，访问 Python 官方下载页：</p>
+  <ul>
+    <li><strong>官网下载页（推荐，自动识别系统给最新版）</strong>：<a href="https://www.python.org/downloads/" target="_blank">https://www.python.org/downloads/</a></li>
+  </ul>
+
+  <p>进入后点页面上那个大大的黄色按钮，Windows 电脑点 "Download Python 3.x.x" 即可（64 位系统选 "Windows installer (64-bit)"）。</p>
+
+  <p>如果你想要<strong>直接拿到某个具体版本的安装包</strong>（比如文章截图用的 3.14.2），也可以不走下载页，直接下载安装管理器：</p>
+  <ul>
+    <li><strong>Python 3.14.2 安装包直链（Windows 64 位）</strong>：<a href="https://www.python.org/ftp/python/3.14.2/python-3.14.2-amd64.exe" target="_blank">https://www.python.org/ftp/python/3.14.2/python-3.14.2-amd64.exe</a></li>
+  </ul>
+
+  <div class="tip">
+    小提示：那个 <code>amd64</code> 不是指 AMD 处理器，而是泛指"64 位 Windows"，Intel 和 AMD 的 64 位电脑都能装，放心点。
+  </div>
+
+  <p>下载下来的是一个 <code>.exe</code> 文件，双击它就开始安装。</p>
+
+  <h4>② 安装时最关键的一步：勾选 PATH</h4>
+
+  <p>安装向导第一屏，请<strong>务必先勾选最下面的 "Add python.exe to PATH"</strong>（中文版叫"将 Python 添加到环境变量"），然后再点 "Install Now"。</p>
+
+  <ul>
+    <li><strong>为什么要勾？</strong> 勾了之后，你在命令行里直接敲 <code>python</code> 系统才找得到它。漏勾是新手 90% 报错的根源（详见第六节"坑 2"）。</li>
+    <li>安装过程大概一两分钟，进度条走完点 "Close" 即可。</li>
+  </ul>
+
+  <h4>③ 验证装好了没</h4>
+
+  <p>装完，按 <code>Win + R</code>，输入 <code>cmd</code> 回车，弹出黑色窗口后敲：</p>
+
+  <pre><code>python --version</code></pre>
+
+  <p>如果显示出 <code>Python 3.14.2</code>（或你装的版本号），恭喜——<strong>灶台点着了</strong>。</p>
+
+  <div class="tip">
+    新手常踩：没勾 PATH，导致后面打不开 Python。如果忘了，不用卸载，重装一次、记得勾选即可，不是大事。
+  </div>
+
+  <h3>第 1 步补充：pip 与国内镜像源（新手必看）</h3>
+
+  <p>Python 装好后，你手里其实还差一个"装插件的小助手"，它叫 <strong>pip</strong>——简单说，它就是 Python 的"应用商店"。你想用 AI 帮你装 Flask、装各种功能库，都得靠它。</p>
+
+  <h4>情形 A：装完 Python 发现没有 pip，怎么办？</h4>
+
+  <p>正常情况下，新版 Python 自带 pip。但万一你装完一敲 <code>pip --version</code> 提示"不是内部或外部命令"，说明 pip 没装上（比如老版本、或安装时某项被关掉了）。别慌，手动补一个就行：</p>
+
+  <ol>
+    <li>打开 pip 官方安装说明页，照着做：<a href="https://pip.pypa.io/en/stable/installation/" target="_blank">https://pip.pypa.io/en/stable/installation/</a></li>
+    <li>先下载官方引导脚本 <strong>get-pip.py</strong>（页面里 "get-pip.py" 那段有下载链接）：<a href="https://pip.pypa.io/en/stable/installation/#get-pip-py" target="_blank">https://pip.pypa.io/en/stable/installation/#get-pip-py</a></li>
+    <li>把 <code>get-pip.py</code> 保存到桌面，然后在它所在的文件夹里打开命令行（地址栏输入 <code>cmd</code> 回车），执行：</li>
+  </ol>
+
+  <pre><code>python get-pip.py</code></pre>
+
+  <p>跑完，pip 就回来了。再敲 <code>pip --version</code> 应该能看到版本号。</p>
+
+  <h4>情形 B：pip 装包太慢 / 卡住，怎么加速？</h4>
+
+  <p>pip 默认从国外的官方源（PyPI）下载，国内网络经常慢、甚至超时。解决思路很简单：<strong>把下载地址换成国内的"镜像源"</strong>（相当于把应用商店的服务器搬到国内，速度快很多）。</p>
+
+  <h4>方法一：临时换源（只这一次生效，最省心）</h4>
+
+  <p>在装某个包的命令后面，加一句 <code>--index-url</code> 指定清华镜像：</p>
+
+  <pre><code>pip install SomePackage --index-url https://pypi.tuna.tsinghua.edu.cn/simple</code></pre>
+
+  <p>把 <code>SomePackage</code> 换成你要装的包名（比如 <code>flask</code>）即可。</p>
+
+  <h4>方法二：永久换源（一劳永逸，推荐）</h4>
+
+  <p>与其每次都加一长串参数，不如把镜像源设成默认。在 <strong>Windows PowerShell（用管理员模式打开）</strong> 里执行这一句：</p>
+
+  <pre><code>[System.Environment]::SetEnvironmentVariable('PIP_INDEX_URL', 'https://pypi.tuna.tsinghua.edu.cn/simple', 'User')</code></pre>
+
+  <p>执行后，以后你直接 <code>pip install 包名</code> 就会自动走清华镜像，又快又稳。</p>
+
+  <div class="tip">
+    还想用别的源？国内还有中科大、阿里云、豆瓣等镜像，把上面网址换成对应地址即可。清华源 <a href="https://pypi.tuna.tsinghua.edu.cn/simple" target="_blank">https://pypi.tuna.tsinghua.edu.cn/simple</a> 是最常用的一个，新人记这一个就够。
+  </div>
+
+  <div class="tip">
+    💡 <strong>划重点</strong>：上面这些"下载 / 装 pip / 换镜像"的动作，其实大多数时候你<strong>不用自己敲命令</strong>——在 CodeBuddy 里跟 AI 说"帮我装好 Python 和 pip，并把下载源换成国内镜像"，它会一步步带你做完。这一节是给你"心里有底"，防止哪天卡住了不知道为什么。
+  </div>
+
+  <h3>第 2 步：装 CodeBuddy（约 5 分钟）</h3>
+
+  <ol>
+    <li>访问 <strong><a href="https://copilot.tencent.com" target="_blank">copilot.tencent.com</a></strong>，下载 CodeBuddy 智能 IDE（Windows / Mac 都有）。</li>
+    <li>一路"下一步"安装，打开后用微信/QQ 登录。</li>
+    <li>第一次打开会提示"安装 Python 相关插件"，点允许即可——它会帮你把写 Python 要的辅助功能配齐。</li>
+  </ol>
+
+  <div class="tip">
+    如果你更习惯 VS Code，也可以装 VS Code + CodeBuddy 插件，效果一样。非程序员直接用 CodeBuddy 智能 IDE 最省事，少装一个软件。
+  </div>
+
+  <h3>第 3 步：跑起你的第一个网站（约 3 分钟）</h3>
+
+  <ol>
+    <li>在 CodeBuddy 里新建一个文件夹，建一个文件 <code>app.py</code>，把这段粘进去（这是第 5 篇见过的"最小网站"）：
+      <pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "你好，这是我的第一个网站"</code></pre>
+    </li>
+    <li>在 CodeBuddy 的对话窗里直接告诉 AI："<strong>帮我安装 Flask 并运行这个 app.py</strong>"。AI 会帮你执行：
+      <pre><code>pip install flask
+python app.py</code></pre>
+    </li>
+    <li>它跑起来后，会在窗口里给你一个本地网址（类似 <code>http://127.0.0.1:5000</code>）。<strong>按住 Ctrl 点这个链接</strong>，浏览器打开——看到那句"你好，这是我的第一个网站"，你的第一个网页应用就活了。</li>
+  </ol>
+
+  <div class="tip">
+    不必全懂这段代码。你只要知道：它能跑、你看得懂它在"说什么"（返回一句话），这就是非程序员验收 AI 成果的最低标准。
+  </div>
+
+  <h2>五、工具与模型选择方案（省钱又省心）</h2>
+
+  <p>这一节专门讲"用哪个工具"和"用哪个模型"——非程序员最该先定下来的两件事。呼应第 2 篇，核心原则就一句：<strong>国内工具 + 国内模型首选，再用"多模型"思路省钱。</strong></p>
+
+  <h3>工具：首选国内工具，基本不用折腾</h3>
+
+  <ul>
+    <li><strong>国内工具（CodeBuddy / 通义灵码 / CodeGeeX）+ 国内模型（DeepSeek / 通义千问）</strong>：默认国内直连，不用科学上网，打开就能用。</li>
+    <li><strong>如果你选了 Claude Code / Cursor（国外工具）</strong>：需要科学上网才能访问，且 <strong>Claude Code 有封号风险、一旦封号无法使用</strong>；接国内模型还要额外配置，对非程序员偏麻烦。<strong>除非你明确需要它们的某项前沿能力，否则不建议新手从它们起步。</strong></li>
+  </ul>
+
+  <h3>模型：用"多模型"思路省钱</h3>
+
+  <p>非程序员、新手对成本敏感，所以<strong>选支持多模型的工具更划算</strong>——不同环节用不同档位的模型：</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>编程环节</th><th>推荐模型</th><th>理由</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>写需求文档、读说明、简单修改</td><td><strong>DeepSeek</strong>（便宜档）</td><td>性价比之王，日常够用还便宜</td></tr>
+        <tr><td>日常写代码、调界面</td><td>主力模型（如通义千问 Qwen）</td><td>免费额度大、中文好</td></tr>
+        <tr><td>疑难重构、复杂报错</td><td>最强档（旗舰模型）</td><td>偶尔用，贵但能救急</td></tr>
+        <tr><td>批量生成、重复活</td><td>便宜档</td><td>量大就选便宜的</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip">
+    💡 <strong>省钱心法</strong>：让 AI 写代码，80% 的活儿用便宜模型就能搞定；只有卡住时再切旗舰模型。<strong>别从头到尾只用最贵的那个。</strong>
+  </div>
+
+  <h2>六、避坑：环境搭建最常见的 3 个错</h2>
+
+  <p><strong>坑 1：装软件前没看"认准官方"</strong>——搜"CodeBuddy 下载"、"Python 下载"会跳出一堆山寨站，可能带毒的或带广告的。记住：<strong>只从官网（<a href="https://copilot.tencent.com" target="_blank">copilot.tencent.com</a>）或应用商店下</strong>。</p>
+
+  <p><strong>坑 2：Python 没勾 PATH，后面全报错</strong>——症状是没有 <code>python</code> 命令。解决：重装、勾选 "Add to PATH"，或让 CodeBuddy 帮你检查环境变量。</p>
+
+  <p><strong>坑 3：在"选哪个工具"上又纠结三天</strong>——第 5 篇就说了，默认选 Python + 国内工具，错不了。装一个顺手的，跑起来比选完美重要一万倍。</p>
+
+  <h2>七、今天就能做的行动清单</h2>
+
+  <ol>
+    <li><strong>先跑通主线</strong>：按本篇"四、Python 网页应用（Flask）"把 Flask 最小网站跑起来。新人用 <strong>Flask+HTML</strong> 起步最稳，先有"我做出来了"的实感。</li>
+    <li><strong>装 CodeBuddy</strong>（<a href="https://copilot.tencent.com" target="_blank">copilot.tencent.com</a>，微信登录），顺手把它当默认 AI 助手。</li>
+    <li><strong>走通第四节第 3 步</strong>：跑起那个"你好，这是我的第一个网站"——你会有"我真的能做出东西"的实感。</li>
+    <li><strong>记一笔</strong>：把"本地网址""模型档位"这类东西存到一个文档里，下次直接用。</li>
+    <li><strong>别学语法</strong>：下一步是"怎么跟 AI 把需求说清楚"——第 7 篇《和 AI 对话的核心技能》。</li>
+  </ol>
+
+  <div class="closing">
+    环境跑起来了，灶台也点着了。但"有灶台"不等于"会做菜"——<strong>真正决定作品好坏的，是你怎么把脑子里的想法，翻译成 AI 听得懂的话。</strong><br><br>
+    下一篇，我们就拆这个最核心的能力：<strong>《和 AI 对话的核心技能：需求描述与拆解》</strong>。
+  </div>
+
+  <div class="footnote">
+    文中安装步骤基于 2026 年各产品公开版本；具体界面与入口以官方最新说明为准。工具与模型选择遵循"国内工具 + 国内模型首选"的系列原则。
+  </div>
+
+</div>
+</body>
+</html>
