@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07｜和 AI 对话的核心技能：提示工程与两种实战方法 - 非程序员 AI 编程实战</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f0f2f5;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    color: #2c3e50;
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .article {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 40px 36px 48px;
+    box-shadow: 0 1px 8px rgba(0,0,0,.06);
+  }
+  h1 {
+    font-size: 26px;
+    line-height: 1.4;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #8a94a6;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eef0f3;
+    padding-bottom: 16px;
+  }
+  h2 {
+    font-size: 20px;
+    color: #1a1a1a;
+    margin: 36px 0 14px;
+    padding-left: 12px;
+    border-left: 4px solid #2b7de9;
+    line-height: 1.4;
+  }
+  h3 {
+    font-size: 17px;
+    color: #2b7de9;
+    margin: 26px 0 10px;
+  }
+  h4 {
+    font-size: 16px;
+    color: #1a1a1a;
+    margin: 20px 0 8px;
+    padding: 10px 14px;
+    background: #f2f7ff;
+    border: 1px solid #dce9fb;
+    border-radius: 8px;
+  }
+  p { margin: 10px 0; }
+  strong { color: #1a1a1a; }
+  ul, ol { margin: 10px 0 10px 24px; }
+  li { margin: 6px 0; }
+  a { color: #2b7de9; text-decoration: none; border-bottom: 1px solid #bcd4f5; }
+  a:hover { color: #1a5fc7; }
+  .lead {
+    font-size: 16px;
+    color: #4a5568;
+    margin: 12px 0;
+  }
+  .conclusion {
+    background: #eaf3ff;
+    border-left: 4px solid #2b7de9;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 15.5px;
+    color: #1a3a6b;
+  }
+  .tip {
+    background: #fffbea;
+    border-left: 4px solid #f5a623;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 15px;
+    color: #6b4a12;
+  }
+  .prompt {
+    background: #f7f8fa;
+    border: 1px dashed #c3cad6;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13.5px;
+    color: #2c3e50;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+  pre {
+    background: #1e2530;
+    color: #e6e9ef;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 14px 0;
+    overflow-x: auto;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  code { font-family: "SF Mono", Consolas, "Courier New", monospace; font-size: 0.92em; background: #f0f3f8; padding: 1px 5px; border-radius: 4px; color: #c0392b; }
+  pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 540px;
+  }
+  th {
+    background: #f2f6fb;
+    color: #1a3a6b;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid #dfe6ee;
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 12px;
+    border: 1px solid #e7ecf2;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #fafbfc; }
+  .closing {
+    margin-top: 36px;
+    background: linear-gradient(135deg, #2b7de9, #1a5fc7);
+    color: #fff;
+    border-radius: 10px;
+    padding: 20px 22px;
+    text-align: center;
+    font-size: 15.5px;
+  }
+  .closing strong { color: #fff; }
+  .footnote {
+    margin-top: 20px;
+    font-size: 12.5px;
+    color: #9aa4b2;
+    text-align: center;
+  }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1f2937;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .site-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .site-nav a:hover { color: #93c5fd; }
+  @media (max-width: 480px) {
+    .article { padding: 24px 18px 36px; font-size: 15px; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 16px; }
+    body { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="site-nav">
+  <a href="06_环境搭建不求人.html">上一讲</a>
+  <a href="index.html">下一讲</a>
+  <a href="index.html">🏠 回到首页</a>
+</div>
+
+<div class="article">
+
+  <h1>07｜和 AI 对话的核心技能：提示工程与两种实战方法</h1>
+  <div class="subtitle">《非程序员 AI 编程实战》系列第 7 篇 · 编码、测试与部署第 1 步：把需求说清楚</div>
+
+  <p class="lead">系列第 3 阶段（编码、测试与部署）第 1 篇。前几篇你定了想法（03）、用了 MVP 思维（04）、选了 Python Flask + HTML 技术栈（05）、把环境跑起来了（06）。现在灶台点着了，代码 AI 帮你写——但<strong>你要什么</strong>，只能你来说。这一篇讲 AI 编程时代最核心的技能：<strong>提示工程</strong>，以及和 AI 对话的<strong>两种实战方法</strong>。最后用一个经典案例收尾：<strong>用 Python Flask + HTML 开发一个单页面交互式电商数据可视化分析程序</strong>——两种方法各走一遍，你就能看出它们的差别和适用场景。</p>
+
+  <h2>引言：从"会写代码"到"会提需求"</h2>
+
+  <p>上一讲你照着做，已经跑出了第一个 Flask 网站（一句"你好，这是我的第一个网站"）。很多人到这里，反而卡住了。</p>
+
+  <p>打开 CodeBuddy 的对话框，盯着输入框，憋出一句："帮我做个数据可视化的页面。"AI 乖乖给你生成了一堆代码。你跑起来一看——页面是灰的、图是死的、和自己 Excel 里的数据完全不沾边。你又说："能不能做成能点的、能切换的？"来回折腾七八轮，东西还是不像样。</p>
+
+  <p>真相是：<strong>AI 不笨，是你没说清。</strong></p>
+
+  <p>这就引出了 AI 编程时代的一个核心概念——<strong>提示工程（Prompt Engineering）</strong>。</p>
+
+  <h3>什么是"提示工程"</h3>
+
+  <p>简单说：<strong>提示工程，就是"怎么跟 AI 说话，才能让它一次听懂、做对"的方法论。</strong></p>
+
+  <p>"提示词（Prompt）"就是你发给 AI 的那段话；"工程"二字听着唬人，其实是说这件事<strong>有章法、可以学习、值得认真做</strong>——不是随手打一句话碰运气。</p>
+
+  <p>很多人以为提示工程是"聊天机器人用户"的技巧，跟编程无关。恰恰相反——<strong>在 AI 编程里，提示工程就是你的"编程能力"本身</strong>。过去程序员的价值体现在键盘上：一行行敲代码；现在价值体现在输入框里：<strong>把需求描述清楚、把验收标准定明白、把技术路线交代好</strong>。代码由 AI 写，但"要什么、做成什么样、用什么做"这三件事，AI 替代不了你。</p>
+
+  <p>打个比方：AI 是一位<strong>执行力超强、但完全不会猜你心思的实习生</strong>。</p>
+
+  <ul>
+    <li><strong>手脚极快</strong>：你说"画个柱状图"，几秒给你一版。</li>
+    <li><strong>绝对听话</strong>：你说什么它做什么，不跟你讲条件。</li>
+    <li><strong>没有脑补能力</strong>：你没说的，它绝不自己加。你说"做个数据看板"，它不知道数据在哪个文件、要几个维度、图表要不要交互——因为它没看过你的 Excel。</li>
+    <li><strong>分不清轻重</strong>：你洋洋洒洒一大段，它可能把最不重要那句当重点。</li>
+  </ul>
+
+  <p>所以它会犯两类典型错：你没说清 → 它自由发挥；你说太多没条理 → 它抓错重点。<strong>你说得越具体、越有条理，它干得越准</strong>——这就是提示工程要解决的事。</p>
+
+  <p>具体怎么做？业界实践沉淀出两种主流方法，这也是本篇的主体：</p>
+
+  <ul>
+    <li><strong>方法一：一次说清</strong>——像给一位聪明但对你的业务一无所知的新同事写"任务说明书"：把任务背景与角色、详细需求、约束条件（编程语言、软件架构、输出格式）、分步指令和成功标准（验收要求）逐条写清、一次给足，让 AI 直接实现；</li>
+    <li><strong>方法二：先要方案</strong>——给出详细需求，请 AI 先提出实现方案，你确认后再动手。</li>
+  </ul>
+
+  <div class="conclusion">
+    <strong>黄金法则</strong>：怎么检验提示词够不够清楚？Anthropic 官方提示工程文档给过一个"黄金法则"——<strong>把提示词拿给一位不了解任务的同事，请他照着执行；如果他会困惑，AI 也会。</strong>你的提示词应该让"零背景的新同事"都能看懂照做，这才叫说清了。
+  </div>
+
+  <p>先讲两种方法共同的地基：需求描述五要素。</p>
+
+  <h2>一、共同地基：需求描述的 5 个要素</h2>
+
+  <p>无论用哪种方法，跟 AI 说需求都离不开这 5 个要素。不用背高大上的术语，记住这五个词就够了——<strong>背景 + 目标 + 约束 + 材料 + 验收</strong>：</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>要素</th><th>回答的问题</th><th>本次案例怎么填</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>① 背景</strong></td><td>你是谁、用在哪</td><td>"我是数据分析员，用 Python Flask + HTML 开发。数据用 <code>ecommerce_sales_2024.xlsx</code>（2500 条、21 个字段、6 平台 / 10 品类 / 12 城市 / 2024 全年）"</td></tr>
+        <tr><td><strong>② 目标</strong></td><td>最终要做出什么产品</td><td>"一个单页面 Web 应用：打开能看到多维度电商数据可视化分析。上方筛选区（下拉框选维度：平台 / 品类 / 城市 / 月度），中间图表区（柱状图 / 饼图 / 折线图 / 树状图 / 玫瑰图，可交互——hover 显示详情），每个图表右上角有切换按钮可在两种图形间切换，数据实时从 Excel 读取"</td></tr>
+        <tr><td><strong>③ 约束</strong></td><td>技术 / 平台 / 限制</td><td>"技术栈 Flask + HTML，图表用 Python 包 Plotly（<code>pip install plotly</code>，不碰前端 JS / CSS）；支持图表类型：柱状图、折线图、饼图、树状图、玫瑰图（南丁格尔图）；所有数据走后端 JSON API；单页面，不跳转；中文界面；响应式（手机也能看）"</td></tr>
+        <tr><td><strong>④ 材料</strong></td><td>你手上已有啥</td><td>"<code>ecommerce_sales_2024.xlsx</code> 的「订单明细」sheet（完整 21 个字段列表）；第 6 篇已装好 Python + Flask + AI 编程助手"</td></tr>
+        <tr><td><strong>⑤ 验收</strong></td><td>怎样算做好了</td><td>"① 打开浏览器看到页面标题；② 筛选区下拉框可选四个维度；③ 切换维度时图表自动更新；④ 柱状图 hover 显示平台名 + 销售额（万元）；⑤ 饼图 hover 显示品类名 + 占比；⑥ 树状图各矩形面积比例与数据一致；⑦ 玫瑰图每个扇形角度正确反映对应占比；⑧ 每个切换按钮点击后能切到另一种图形且数据不变；⑨ 整页不崩不卡"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>缺一个都可能翻车</strong>：</p>
+
+  <ul>
+    <li>漏了"③ 约束"中的"图表用 Python 包 Plotly，不碰前端 JS"——AI 可能给你写一堆 <code>&lt;script&gt;</code> 标签和 <code>npm install</code>，而非程序员根本不知道 npm 怎么用。</li>
+    <li>漏了"③ 约束"中"支持图表类型：树状图、玫瑰图"——AI 可能只给你柱状图和饼图，品类数据切不出树状图、城市排行切不出玫瑰图。</li>
+    <li>漏了"⑤ 验收"中"切换按钮点击后能切到另一种图形且数据不变"——AI 可能做出切换按钮，但切了之后数据对不上。</li>
+  </ul>
+
+  <p>五要素是"原料"。原料怎么下锅，就分成了下面两种方法。</p>
+
+  <h2>二、方法一：一次说清——需求、验收、架构、技术栈全给足</h2>
+
+  <p><strong>做法一句话</strong>：把 5 个要素一次全部写清——详细需求、验收要求、软件架构（前后端怎么分工、数据怎么流动）、编程语言与框架——然后整段发给 AI，让它直接开工实现。</p>
+
+  <h3>适用场景</h3>
+
+  <ul>
+    <li>你<strong>很清楚自己要什么</strong>：页面长什么样、有哪些图表、什么交互，脑子里有画面。</li>
+    <li>需求已经写在文档里（比如公司的报表需求、领导的一句话指示拆出来的条目）。</li>
+    <li>项目不大、结构简单——一个单页面应用、一个脚本、一个小工具。</li>
+  </ul>
+
+  <h3>提示词模板（直接抄）</h3>
+
+  <pre><code>我是：[身份，如：数据分析员]
+
+我要做一个：[一句话说清产品——打开能看到什么、能做什么]
+
+软件架构：[前后端怎么分工、数据怎么流动，如：
+后端 Flask 提供 JSON API，前端 HTML 展示，
+后端用 pandas 读数据、用 Plotly 生成图表传给前端]
+
+技术栈：[编程语言 + 框架 + 图表库，如：Python Flask + HTML + Plotly]
+
+数据来源：[文件路径 + 字段清单 + 数据规模]
+
+关键要求：[逐条列——交互、API、响应式……]
+
+验收标准：[打开能做什么、点什么有什么反应，逐条列]
+
+请直接实现全部功能。</code></pre>
+
+  <h3>方法的优点与风险</h3>
+
+  <p><strong>优点</strong>：一轮对话就把需求传到位，AI 拿到的信息完整、不打折扣；速度快，适合需求明确的小项目。</p>
+
+  <p><strong>风险</strong>：一次生成代码量大，中间某处出错（比如 API 字段名前后不一致），页面白屏，你面对几百行代码不知道错在哪。所以用这个方法，<strong>验收和增量修改是救命稻草</strong>——跑起来发现不满意，不用重写，直接提修改指示："柱状图颜色改成蓝色渐变""饼图没显示百分比，帮我加上""切换按钮点了没反应，帮我修"。AI 会基于已有代码做增量调整，不用从头再来。</p>
+
+  <h2>三、方法二：先要方案——给出需求，请 AI 提出实现方案</h2>
+
+  <p><strong>做法一句话</strong>：同样把需求写清（五要素），但<strong>先不让 AI 写代码</strong>，而是请它提出一份实现方案——分几步做、每步做什么、怎么验证；你审核、调整、确认之后，再让它按方案逐步实现。</p>
+
+  <h3>适用场景</h3>
+
+  <ul>
+    <li>你<strong>知道自己要什么，但不知道怎么实现</strong>——不清楚该分几步、先后顺序是什么。</li>
+    <li>项目较大或较新（第一次做 Web 应用、第一次碰某类功能），心里没底。</li>
+    <li>想让 AI 当"技术顾问"：先出主意，再动手。</li>
+  </ul>
+
+  <div class="tip">
+    💡 <strong>呼应工具自带能力</strong>：很多 AI 编程工具自带这个模式——比如 CodeBuddy 的 Craft 模式有"确认计划"开关，打开后 AI 动手前会先给你一份计划让你确认。这本质就是方法二的内置版。
+  </div>
+
+  <h3>提示词模板（直接抄）</h3>
+
+  <p>在方法一模板的基础上，把最后一句"请直接实现全部功能"换成：</p>
+
+  <pre><code>请先不写代码，给我一份实现方案，包括：
+1. 分几步实现（每步能独立运行和验证）
+2. 每步具体做什么、产出什么
+3. 每步怎么验收
+4. 有没有你建议调整的地方（比如更简单的做法）
+我确认后你再开始写代码。</code></pre>
+
+  <h3>方法的优点与风险</h3>
+
+  <p><strong>优点</strong>：方案先行，方向错了在纸面上就能纠正，返工成本最低；AI 拆的步骤本身就是你的"施工进度表"，每步验收、步步为营；AI 还常会在方案里给你提优化建议（"这个需求可以用更简单的方式实现"），相当于白捡一个技术顾问。</p>
+
+  <p><strong>风险</strong>：多一轮"方案—确认"的往返，起步稍慢；方案质量取决于你需求的清晰度——需求含糊，方案也含糊。所以五要素地基同样不能省。</p>
+
+  <h2>四、实战案例：两种方法完成同一个数据可视化分析程序</h2>
+
+  <p>道理讲完了，上案例。<strong>同一个项目，两种方法各走一遍</strong>，你能直观看到差别。</p>
+
+  <h3>案例介绍：我们要做什么</h3>
+
+  <p>手上有 <code>ecommerce_sales_2024.xlsx</code>（2500 条记录、21 个字段、6 个平台、10 个品类、12 个城市），我们要把它变成一个<strong>能点、能看、能切换的网页</strong>：</p>
+
+  <ul>
+    <li>打开是一个清爽的页面，标题"电商数据可视化分析平台"</li>
+    <li>上方是<strong>筛选区</strong>：下拉框可以按"平台 / 品类 / 城市 / 月度"切换分析维度</li>
+    <li>中间是<strong>图表区</strong>：柱状图、饼图、折线图、树状图、玫瑰图，全是交互的——鼠标悬停显示数据</li>
+    <li>每个图表右上角有一个<strong>切换按钮</strong>：同组数据可在两种图形间来回切换（比如品类数据既能看饼图、也能一键切成树状图；城市排行既能看横向柱状图、也能切成玫瑰图）</li>
+    <li>所有数据<strong>实时从 Excel 读取</strong>，不是写死的</li>
+  </ul>
+
+  <p>技术路线就是第 5 篇推荐的<strong>新手首选</strong>：<strong>Python Flask（后端）+ HTML（前端）+ Plotly（Python 图表库，<code>pip install plotly</code> 就能用，不碰任何前端 JS 代码）</strong>。</p>
+
+  <h3>4.1 方法一怎么做：一份完整提示词，直接开工</h3>
+
+  <p>把模板填满，就是下面这份可以直接发给 AI 的完整提示词（改改文件名和维度就能用在任何数据上看板项目）：</p>
+
+  <pre><code>我是：数据分析员，用 AI 编程助手开发。
+
+我要做一个：单页面电商数据可视化分析 Web 应用。
+打开页面能看到标题"电商数据可视化分析平台"，
+上方筛选区：下拉框可选四个分析维度（平台 / 品类 / 城市 / 月度），
+中间图表区：根据所选维度展示对应图表，
+每个图表右上角有一个"切换图形"按钮，能在两种图形间切换：
+  - 平台：柱状图 ↔ 饼图
+  - 品类：饼图 ↔ 树状图
+  - 城市：横向柱状图 ↔ 玫瑰图
+  - 月度：折线图 ↔ 柱状图
+  - 客户：柱状图 ↔ 饼图
+  - 支付：饼图 ↔ 玫瑰图
+所有图表可交互（hover 显示具体数值），数据实时从 Excel 读取。
+
+软件架构：后端 Flask 提供 JSON API 接口，用 pandas 读 Excel、
+用 plotly 生成交互图表并传给前端；前端 HTML 展示页面与图表。
+数据不在前端写死，全部实时读取。
+
+技术栈：Python Flask（后端）+ HTML（前端）+ Plotly（Python 图表包）。
+不碰任何前端 JS 框架、不装 npm。
+
+数据来源：ecommerce_sales_2024.xlsx 的「订单明细」sheet，
+包含 21 个字段：订单ID、下单日期、平台、商品类别、商品单价、
+购买数量、折扣率、实付金额、支付方式、客户姓名、性别、年龄、
+所在城市、客户等级、是否退货、退货原因……共 2500 条记录，
+覆盖 6 个平台、10 个品类、12 个城市、2024 年全年。
+
+关键要求：
+1. 所有数据通过 Flask JSON API 提供（/api/overview、/api/platform、
+   /api/category、/api/city、/api/monthly、/api/customer、/api/payment）
+2. 后端用 pandas 读 Excel、用 plotly 生成交互图表，通过模板传给前端
+3. 维度切换不刷新页面
+4. 图表切换按钮只改图形类型不改数据
+5. 中文界面、响应式布局（手机也能看）
+
+验收标准：
+① 浏览器打开 127.0.0.1:5000 看到页面标题
+② 下拉框四个维度，每个切换后图表正确更新
+③ 柱状图 hover 显示平台名+金额（万元），饼图 hover 显示品类名+占比
+④ 树状图矩形面积比例与数据一致，玫瑰图扇形角度反映占比
+⑤ 每个切换按钮点击后图形变化、数据不变
+⑥ 整页不崩不卡
+
+请直接实现全部功能。</code></pre>
+
+  <p>发出去之后，你的工作就剩三步：</p>
+
+  <ol>
+    <li><strong>跑起来</strong>：让 AI 告诉你怎么启动（通常是 <code>python app.py</code>），浏览器打开 <code>127.0.0.1:5000</code>。</li>
+    <li><strong>照验收标准逐条打钩</strong>：标题对不对、下拉框灵不灵、六个切换按钮挨个点一遍。</li>
+    <li><strong>增量修改</strong>：哪条不满足，直接说哪里不对——"月度折线图没显示 6 月和 11 月的高峰，检查一下数据分组"——让 AI 基于已有代码修，别推倒重来。</li>
+  </ol>
+
+  <p><strong>方法一的典型体验</strong>：顺利的话一两轮就出成品；不顺利的话，AI 一次生成的代码里藏着某个前后不一致的 bug，页面白屏，你得把报错整段贴回去让它修。能修好，但你要有耐心。</p>
+
+  <h3>4.2 方法二怎么做：先要方案，确认后逐步实现</h3>
+
+  <p><strong>第 1 步：发需求 + 要方案</strong>。提示词前面和方法一完全一样（需求、架构、技术栈、数据、验收），只把最后一句换成：</p>
+
+  <div class="prompt">"请先不写代码，给我一份实现方案：分几步做、每步做什么、每步怎么验收，以及你有没有建议调整的地方。我确认后你再开始写代码。"</div>
+
+  <p><strong>第 2 步：AI 会还你一份类似这样的方案</strong>（这是它实际给出的 8 步，很典型）：</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>步骤</th><th>做什么</th><th>怎么验收</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>第 1 步</strong></td><td>搭 Flask 项目骨架：新建 <code>app.py</code> + <code>templates/index.html</code>，跑起来显示页面标题"电商数据可视化分析平台"。</td><td>浏览器打开 <code>http://127.0.0.1:5000</code>，看到标题，页面不报错</td></tr>
+        <tr><td><strong>第 2 步</strong></td><td>后端读取 Excel：在 <code>app.py</code> 里用 pandas 读取 <code>ecommerce_sales_2024.xlsx</code> 的「订单明细」sheet，做一个 <code>/api/overview</code> 接口，返回 JSON：总销售额、总订单数、平台数、品类数、退货率。</td><td>浏览器访问 <code>/api/overview</code>，看到 JSON 数据（<code>{"总销售额": 17731334, ...}</code>）</td></tr>
+        <tr><td><strong>第 3 步</strong></td><td>前端基础布局 + 第一张图：<code>index.html</code> 做上下两区——上方筛选栏（一个下拉框占位）、下方图表区。后端新增 <code>/api/platform</code> 接口，返回六平台销售额 JSON。后端用 plotly 生成柱状图传给前端，画出<strong>六平台销售额柱状图</strong>。每个图表右上角加一个"切换图形"按钮——点一下柱状图变成饼图、再点变回来。</td><td>打开页面能看到柱状图、hover 有提示框；点"切换图形"按钮变成饼图</td></tr>
+        <tr><td><strong>第 4 步</strong></td><td>品类饼图 + 城市排行：新增 <code>/api/category</code> 和 <code>/api/city</code> 两个后端接口，左侧品类饼图、右侧城市横向柱状图。每个图同样加"切换图形"按钮（品类饼图 ↔ 树状图、城市排行横向柱状图 ↔ 玫瑰图）。</td><td>饼图十块有百分比，切换按钮能切成树状图；城市排行上海 / 北京在前，切换按钮能切成玫瑰图；两个图不重叠</td></tr>
+        <tr><td><strong>第 5 步</strong></td><td>月度趋势折线图：后端 <code>/api/monthly</code> 返回 1-12 月销售额，前端画折线图——hover 显示当月金额，6 月和 11 月有明显高峰。图表右上角加"切换图形"按钮（折线图 ↔ 柱状图）。</td><td>折线图能缩放、hover 有数值，走势符合淡旺季；点切换按钮变成柱状图</td></tr>
+        <tr><td><strong>第 6 步</strong></td><td>交互核心：维度切换。筛选区下拉框做成真正能用的——选"平台"显示六平台柱状图，选"品类"切换为十品类饼图，选"城市"切换为城市排行，选"月度"切换为趋势折线图。<strong>切维度不刷新页面</strong>。</td><td>下拉框切换四个维度，每个维度显示对应图表，不卡顿、不白屏</td></tr>
+        <tr><td><strong>第 7 步</strong></td><td>客户与支付分析：新增两个区域——客户等级消费对比（柱状图）和支付方式占比（饼图），同样通过 <code>/api/customer</code> 和 <code>/api/payment</code> 后端接口。每个图带切换按钮（客户柱状图 ↔ 饼图、支付饼图 ↔ 玫瑰图）。</td><td>四个等级（普通 → 钻石）消费递增；微信支付 + 支付宝占比最大；两个图的切换按钮分别有效</td></tr>
+        <tr><td><strong>第 8 步</strong></td><td>整体美化：配色统一（蓝白为主）、图表间距对齐、筛选区加边框、加载数据时显示 loading 动画、手机端自适应。</td><td>页面干净整洁，配色舒服，手机打开不挤不乱</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>第 3 步：你审核方案</strong>。这一步是你值钱的地方：</p>
+
+  <ul>
+    <li>步骤顺序合不合理？（比如方案把"美化"放最后，对——先跑通再好看。）</li>
+    <li>每步能不能独立验证？（第 2 步单独做一个 API 让你先看到数据，很聪明。）</li>
+    <li>有没有要调整的？比如你对 AI 说："第 6 步维度切换是核心，提到第 3 步先做，我最看重它。"AI 会重排方案。</li>
+  </ul>
+
+  <p><strong>第 4 步：逐步实现，一次只让它干一件事</strong>。确认方案后，<strong>别一股脑全甩</strong>。每轮只发一个小指令，以第 3 步为例：</p>
+
+  <div class="prompt">"现在做第 3 步：前端画六平台销售额柱状图。要求：① 后端 <code>/api/platform</code> 已写好，返回 <code>[{name:'天猫', sales:2369038}, ...]</code>；② 图表用 Python 的 <code>plotly</code> 包在 Flask 里生成，通过模板传给前端（不写 JS）；③ 柱子蓝色渐变；④ hover 显示'平台名：xx 万元'；⑤ 标题'六平台销售额对比（2024年）'；⑥ 图表放在页面下半区。"</div>
+
+  <p>AI 画完，你刷新页面——柱子出来了、hover 有提示框、天猫在最左——三项都满足，这步就过了，再进第 4 步。<strong>每步跑通、确认 OK，再继续</strong>——第 2 步 API 字段名如果写错，当场就能发现，不会拖到第 5 步变成"页面白屏查无此错"。</p>
+
+  <p><strong>遇到报错怎么办</strong>：跑代码报错是常态，不是你笨。Web 应用最常见两类坑——</p>
+
+  <p><strong>后端 500 错误</strong>（页面打不开或 API 不返回数据）<br>
+  → 把终端里整段红字贴给 AI："Flask 报 500 了，这是报错信息，帮我修。"</p>
+
+  <p><strong>前端空白</strong>（页面打开了但图没出来）<br>
+  → 按 F12 打开浏览器控制台，把那几行红色报错复制给 AI："浏览器控制台报这个错，图表没显示，帮我找出原因。"</p>
+
+  <p><strong>核心原则：整段贴报错 + 让它只修这一个问题 + 别自己瞎改。</strong></p>
+
+  <h3>4.3 两种方法对比：怎么选</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>对比维度</th><th>方法一：一次说清</th><th>方法二：先要方案</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>提示词重心</td><td>需求 + 验收 + <strong>架构 + 技术栈</strong>，一次给全</td><td>需求 + 验收给全，<strong>最后请 AI 出实现方案</strong></td></tr>
+        <tr><td>谁来定"怎么做"</td><td>你定（架构、步骤都写在提示词里）</td><td>AI 提方案、你拍板</td></tr>
+        <tr><td>速度</td><td>起步最快，一轮就出代码</td><td>多一轮方案确认，起步稍慢</td></tr>
+        <tr><td>出错成本</td><td>高——bug 藏在几百行代码里，回头找</td><td>低——方向错在纸面上就纠正，每步独立验收</td></tr>
+        <tr><td>对你的要求</td><td>要懂点架构（前后端分工、技术选型）</td><td>只要懂需求，"怎么做"交给 AI</td></tr>
+        <tr><td>适合场景</td><td>需求明确的小项目、二次修改、照抄成熟套路</td><td>第一次做某类项目、项目较大、心里没底</td></tr>
+        <tr><td>新手建议</td><td>熟悉后用它提效</td><td><strong>非程序员首选，先养成这个习惯</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>一句话总结：<strong>方法一考验你"写需求"的功力，方法二把"怎么做"外包给 AI、你只管拍板</strong>。新手从方法二入门，等做过两三个项目、对架构有感觉了，再用方法一提速。而且两者不互斥——同一个项目，可以先用方法二要方案，确认后把方案连同需求整理成一份完整提示词（方法一）发给 AI 直接实现。</p>
+
+  <h2>五、避坑：对话时最常犯的 5 个错</h2>
+
+  <p><strong>坑 1：说"做个可视化页面"——技术和数据都没交代。</strong><br>
+  AI 不知道你用 Flask 还是 Vue、数据在 Excel 还是数据库。要把技术栈和数据来源说清楚（见第一节五要素）。</p>
+
+  <p><strong>坑 2：一次塞太多需求——AI 抓不住重点。</strong><br>
+  "后端所有 API + 前端所有图表 + 所有交互"——要么用方法二拆成步骤，要么至少在提示词里用"关键要求"逐条列清。</p>
+
+  <p><strong>坑 3：报错自己乱改——越改越乱。</strong><br>
+  Flask 报 500、页面打开一片空白，把整段红字丢给 AI。别自己动手改代码——你看不懂的地方改一个字，可能牵动整片逻辑，越改越乱。</p>
+
+  <p><strong>坑 4：不验收就进下一步——错误层层累积。</strong><br>
+  第 2 步 API JSON 字段名写错了，到第 3 步前端取不到数据，你以为是前端问题——来回改浪费大量时间。每步跑通、确认 OK，再继续。</p>
+
+  <p><strong>坑 5：用术语装内行——反而带偏 AI。</strong><br>
+  跟 AI 说"做个 SPA"——如果你其实不知道 SPA（Single Page Application）和传统多页面的区别，AI 可能给你上一套 React + Router，你完全看不懂。就说"单页面，不跳转，所有功能在一个页面完成"——说人话。</p>
+
+  <h2>六、今天就能做的行动清单</h2>
+
+  <ol>
+    <li><strong>背下五要素</strong>：背景 + 目标 + 约束 + 材料 + 验收——每次跟 AI 开口前先过一遍，缺哪个补哪个。</li>
+    <li><strong>用方法二走一遍案例</strong>：把 <code>ecommerce_sales_2024.xlsx</code> 放进项目目录，把 4.2 节"需求 + 要方案"的提示词发给 AI，拿到方案后逐步实现。这是非程序员最稳的路径。</li>
+    <li><strong>再用方法一走一遍对比</strong>：把 4.1 节的完整提示词发给 AI 直接实现，体验两种方法的差别——哪种顺手、哪种出错多，你心里就有数了。</li>
+    <li><strong>养成"先要方案"的习惯</strong>：以后任何新需求，第一句话可以先问 AI"先给我实现方案，别写代码"。</li>
+    <li><strong>准备进 08</strong>：下一步是《看得懂代码》——开发到第 5 / 6 步时你会发现，能看懂 <code>/api/platform</code> 返回了什么 JSON、看懂 <code>app.py</code> 里的路由是怎么把数据和图表传给页面的，会让你验收更快。</li>
+  </ol>
+
+  <div class="conclusion">
+    <strong>本篇一句话总结</strong>：AI 编程的核心技能不是写代码，是<strong>提示工程</strong>——把需求说清（背景 + 目标 + 约束 + 材料 + 验收五要素），然后选对话法：需求明确就<strong>一次说清</strong>让 AI 直接实现；心里没底就<strong>先要方案</strong>、确认后逐步做。同一个电商数据看板，两种方法都能做出来，但你至少要各试一次，才知道自己更适合哪种。
+  </div>
+
+  <h2>程序运行所需 Python 包（<code>requirements.txt</code>）</h2>
+
+  <p>本项目从头到尾<strong>只装 Python 包、不碰前端工具链</strong>。运行前，在项目目录下新建一个 <code>requirements.txt</code>，内容如下：</p>
+
+  <pre><code>flask>=3.0
+pandas>=2.0
+openpyxl>=3.1
+plotly>=5.18</code></pre>
+
+  <p>然后一行命令装好所有依赖：</p>
+
+  <pre><code>pip install -r requirements.txt</code></pre>
+
+  <div class="tip">
+    💡 如安装较慢，记得按第 6 篇第四节的方法<strong>换国内镜像源</strong>（清华镜像 <code>--index-url https://pypi.tuna.tsinghua.edu.cn/simple</code>），速度飞起。
+  </div>
+
+  <p><strong>各包用途一览</strong>：</p>
+
+  <ul>
+    <li><code>flask</code>——Web 后端框架，搭 API 接口和页面路由</li>
+    <li><code>pandas</code>——读 Excel、做数据分组统计</li>
+    <li><code>openpyxl</code>——pandas 读 <code>.xlsx</code> 文件的底层引擎</li>
+    <li><code>plotly</code>——画交互图表（柱状图、折线图、饼图、树状图、玫瑰图），<code>fig.to_html()</code> 直接嵌入 Flask 模板</li>
+  </ul>
+
+  <div class="closing">
+    提示工程不是"玄学"，是<strong>把脑子里的想法翻译成 AI 听得懂的话</strong>。<br>
+    下一篇《看得懂代码》筹备中——先回到目录，看看已经发布的章节里，哪一篇你最该补上实操。
+  </div>
+
+  <div class="footnote">
+    文中方法与示例参考 Anthropic 官方提示工程文档（claude.com / docs.anthropic.com）。系列遵循"国内工具 + 国内模型首选"的原则，提示词内统一以"数据分析员"身份表述。
+  </div>
+
+</div>
+</body>
+</html>
